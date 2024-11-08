@@ -15,21 +15,17 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
-databaseConnection()
 
 
 
 
 
 
-app.post('/test', (req, res) => {
-    const {email , password} = req.body
 
 
-    return res.json({message  : `This is email : ${email} and this is password : ${password}`})
-})
 
 
 app.listen(process.env.PORT || 3000, () => { 
+    databaseConnection()
     console.log(`Server is running on port http://${process.env.HOST}:${process.env.PORT || 3000}`)
 })
