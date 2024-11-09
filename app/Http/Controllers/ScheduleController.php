@@ -22,7 +22,7 @@ class ScheduleController extends Controller
             'start' => $validated['start'],
             'end' => $validated['end'],
             'all_day' => $validated['all_day'],
-            'user_id' => $validated['user_id'], // Store the user_id in the event
+            'user_id' => $validated['user_id'], // Store the user_id 
         ]);
 
          return response()->json($schedule, 201);
