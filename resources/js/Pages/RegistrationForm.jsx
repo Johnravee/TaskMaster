@@ -28,7 +28,7 @@ const RegistrationForm = () => {
 
         // Get the CSRF token from the meta tag
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        console.log(csrfToken);
+     
         
 
         try {

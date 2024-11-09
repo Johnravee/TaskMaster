@@ -1,30 +1,42 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use App\Models\ScheduleModel;
+use App\Models\Schedule;
+use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
 {
-    public function create(Request $request){
+    public function create(Request $request)
+    {
+        // Log the incoming request data (view in laravel.log)
+        Log::info('Request data from schedule form:', $request->all());
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'start' => 'required|string|max:255',
-            'end' => 'required|string|',
+            'end' => 'required|string',
             'all_day' => 'required|boolean',
-            'status' => 'required|string',
-            'user_id' => 'required|exists:users,_id' // Validate user_id exists in the users collection
         ]);
 
+        // Log the validated data (view in laravel.log)
+        Log::info('Validated data:', $validated);
 
-         $schedule = ScheduleModel::create([
-            'title' => $validated['title'],
-            'start' => $validated['start'],
-            'end' => $validated['end'],
-            'all_day' => $validated['all_day'],
-            'user_id' => $validated['user_id'], // Store the user_id 
-        ]);
+        try {
+            
+            $schedule = Schedule::create($validated);
 
-         return response()->json($schedule, 201);
+            // Log the created schedule (view in laravel.log)
+            Log::info('Schedule created:', $schedule->toArray());
+
+          
+            return response()->json($schedule, 201);
+
+        } catch (\Exception $e) {
+            
+            Log::error('Error creating schedule: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to create schedule'], 500);
+        }
     }
 }
