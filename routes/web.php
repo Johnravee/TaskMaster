@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 //Aayusin pa yung routing 
-
 Route::get('/', function () {
     return inertia('RegistrationForm');
 });
@@ -16,6 +15,14 @@ Route::get('/form', function(){
     return inertia('EventForm');
 });
 
-Route::post('/create', [UserController::class, 'create'])->name('createUser');
 
-Route::post('/create-task', [ScheduleController::class, 'create']);
+//for testing only (post talaga 'to)
+Route::get('/create-user', [UserController::class, 'store']);
+
+
+//for testing only (post talaga 'to)
+Route::get('/create-task', [ScheduleController::class, 'store']);
+
+
+// testing fetch all schedules (gawing post pag oks na yung front-end)
+Route::get('/schedules', [ScheduleController::class, 'show']);

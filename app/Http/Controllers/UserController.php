@@ -10,28 +10,18 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    public function create(Request $request)
+    public function store(Request $request)
     {
-        // Log the incoming request data (view in laravel.log)
-        Log::info('Request data from registration form:', $request->all());
-
+        // Validate input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
         ]);
 
-          // Log the validated data (view in laravel.log)
-        Log::info('Validated data:', $validated);
-        
-
-
         try {
-            // Create new user
             $user = User::create($validated);
 
-           // Log the created user (view in laravel.log)
-            Log::info('User created:', $user->toArray());
 
             return response()->json([
                 'user' => $user,
@@ -45,5 +35,15 @@ class UserController extends Controller
                 'details' => $e->getMessage(),
             ], 500);  
         }
+    }
+
+    
+    public function update(Request $request){
+        //pending
+    }
+
+
+    public function destroy(Request $request){
+        //pending
     }
 }
