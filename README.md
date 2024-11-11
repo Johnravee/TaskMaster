@@ -4,7 +4,6 @@
   </a>
 </p>
 
-
 ## About This Project
 
 This project is a **full-stack web application** built with **Laravel**, **Inertia.js**, **React**, and **Vite**. It combines Laravel's powerful backend features with the smooth interactivity of React and the speed of Vite for modern, high-performance development.
@@ -17,7 +16,7 @@ It provides a seamless integration between **Laravel** for the backend API and *
 -   **Frontend**: React components with real-time updates powered by Inertia.js.
 -   **Development**: Fast development environment with **Vite**.
 -   **Database**: Supports both traditional SQL and **MongoDB**.
--   **Modern Tools**: Includes TailwindCSS for styling, React for UI components, and Vite for fast bundling.
+-   **Modern Tools**: Includes **Postman** for route testing.
 
 ## Installation
 
