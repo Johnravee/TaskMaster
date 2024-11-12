@@ -32,11 +32,14 @@ class ScheduleController extends Controller
          // Validate input
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
             'start' => 'required|string|max:255',
             'end' => 'required|string',
-            'all_day' => 'required|boolean',
+            'category' => 'required|string|max:255',
             'user_id' => 'regex:/^[a-f0-9]{24}$/' //mongodb id rule
         ]);
+
+        Log::info('Task request',$request->all());
 
 
         try {
@@ -58,6 +61,8 @@ class ScheduleController extends Controller
 
 
     public function destroy(Request $request){
-        //pending
+        $objectId = $request->input('id');
+
+        Log::info("Destroy id : $objectId");
     }
 }

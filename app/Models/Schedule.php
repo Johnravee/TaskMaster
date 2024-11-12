@@ -9,6 +9,6 @@ class Schedule extends Eloquent
   protected $connection = 'mongodb';  
 
     protected $fillable = [
-        'title', 'start', 'end', 'all_day', 'user_id',
+        'title', 'description','start', 'end', 'category' , 'user_id',
     ];
 }

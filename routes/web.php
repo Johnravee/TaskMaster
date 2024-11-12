@@ -7,15 +7,6 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Log;
 
 
-//Aayusin pa yung routing 
-Route::get('/', function () {
-    return inertia('RegistrationForm');
-});
-
-Route::get('/form', function(){
-    return inertia('EventForm');
-});
-
 
 //for testing only (post talaga 'to)
 Route::get('/create-user', [UserController::class, 'store']);
@@ -29,10 +20,18 @@ Route::get('/create-task', [ScheduleController::class, 'store']);
 Route::get('/schedules', [ScheduleController::class, 'show']);
 
 
+// testing delete schedules (gawing delete pag oks na yung front-end)
+Route::get('/destroy-schedule', [ScheduleController::class, 'destroy']);
+
+
+Route::get('/auth/taskmaster/form');
+
+
+
+
 
 //Google Auth
- 
-Route::get('/auth/redirect', function () {
+Route::get('/auth/google/redirect', function () {
     return Socialite::driver('google')->redirect();
 });
  
@@ -40,5 +39,16 @@ Route::get('/auth/google/callback', function () {
     $user = Socialite::driver('google')->user();
 
     Log::info('Google 2.0 Auth id ng animal: ' . $user->id);
+});
+
+
+//Github Auth
+Route::get('/auth/github/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
  
+Route::get('/auth/github/callback', function () {
+    $user = Socialite::driver('github')->user();
+ 
+    Log::info('Github 2.0 Auth id ng animal: ' . $user->id);
 });
