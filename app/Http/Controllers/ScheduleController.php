@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ScheduleStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Log;
@@ -27,22 +28,12 @@ class ScheduleController extends Controller
     }
 
     
-    public function store(Request $request)
+    public function store(ScheduleStoreRequest $request)
     {
-         // Validate input
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'start' => 'required|string|max:255',
-            'end' => 'required|string',
-            'category' => 'required|string|max:255',
-            'user_id' => 'regex:/^[a-f0-9]{24}$/' //mongodb id rule
-        ]);
-
-        Log::info('Task request',$request->all());
-
-
         try {
+            // Validate input
+            $validated = $request->validated();
+
             $schedule = Schedule::create($validated);
 
             return response()->json($schedule, 201);
@@ -62,7 +53,9 @@ class ScheduleController extends Controller
 
     public function destroy(Request $request){
         $objectId = $request->input('id');
+        $userId = $request->input('user_id');
 
-        Log::info("Destroy id : $objectId");
+
+        Log::info("Destroy id : $objectId $userId");
     }
 }
