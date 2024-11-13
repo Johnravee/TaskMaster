@@ -4,7 +4,6 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -15,6 +14,8 @@ Route::post('/create-task', [ScheduleController::class, 'store']);
 Route::get('/fetch-schedules', [ScheduleController::class, 'show']);
 Route::delete('/destroy-schedule', [ScheduleController::class, 'destroy']);
 
+
+Route::patch('/update-schedule', [ScheduleController::class, 'update']);
 
 Route::post('/auth/taskmaster/form', [UserController::class, 'formLogin']);
 

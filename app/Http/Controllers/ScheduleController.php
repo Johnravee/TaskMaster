@@ -9,6 +9,27 @@ use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
 {
+
+    public function index(Request $request){
+        try{
+         $userId = $request->input('user_id');
+
+        $schedule = Schedule::where('user_id' , $userId)
+                            ->get();
+
+        if($schedule->isEmpty()){
+              return response()->json(['error' => 'Failed to get all schedules'], 404);
+            }
+
+
+            return response()->json(['canceled-schedule' => $schedule]);
+       }catch(\Exception $e){
+          Log::error('Error fetching canceled schedule: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to get all schedules'], 500);
+       }
+    }
+
+
     public function show(Request $request){
 
             //For testing only (gawing auth user id if ok na yung front-end)
@@ -47,16 +68,38 @@ class ScheduleController extends Controller
     }
     
 
+    //pending
     public function update(Request $request){
-        //pending
+        $scheduleId = $request->input("_id");
+        $userId = $request->input("user_id");
+
+
+        Log::info("update request : $scheduleId and $userId");
+        return response()->json(["data" => "update request $scheduleId and $userId"], 200);
     }
 
 
     public function destroy(Request $request){
-        $objectId = $request->input('id');
-        $userId = $request->input('user_id');
+        try{
+            $objectId = $request->input('id');
+            $userId = $request->input('user_id');
 
+            $result = Schedule::where('_id', $objectId)
+                                ->where('user_id', $userId)
+                                ->delete();
 
-        Log::info("Destroy id : $objectId $userId");
+            if(!$result){
+                return response()->json(['error' => 'Failed to delete schedule'], 500);
+            }
+
+            return response()->json(["status" => $result], 202);
+
+        }catch(\Exception $e){
+            Log::error('Error deleting schedule:'. $e->getMessage());
+            return response()->json(['error' => 'Failed to delete schedule'], 500);
+        }
+
     }
-}
+
+ 
+    }

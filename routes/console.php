@@ -14,6 +14,6 @@ Artisan::command('inspire', function () {
 Schedule::command(SendUpcomingScheduleNotification::class)->everySixHours();
 
 //Call the command 
-Schedule::call(function(){
-    logger('function only');
+Schedule::call(function () {
+    logger('kupal only');
 })->everySixHours();
