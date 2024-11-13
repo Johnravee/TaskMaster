@@ -12,7 +12,7 @@ class ScheduleStoreRequest extends FormRequest
     public function authorize(): bool
     //Authorize authenticated user ha
     {
-        return false;
+        return true;
     }
 
     /**

@@ -31,6 +31,7 @@ class ScheduleController extends Controller
     public function store(ScheduleStoreRequest $request)
     {
         try {
+
             // Validate input
             $validated = $request->validated();
 
