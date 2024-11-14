@@ -6,9 +6,7 @@ use App\Http\Requests\UserStoreRequest;
 use App\Models\User;  
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Log;
-
-
+use Illuminate\Support\Facades\Log; 
 
 class UserController extends Controller
 {
@@ -19,7 +17,7 @@ class UserController extends Controller
 
         try {
 
-            // Create a new user
+            // Create a new user 
             $user = User::create($validated);
 
 

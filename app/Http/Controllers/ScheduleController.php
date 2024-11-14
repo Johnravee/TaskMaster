@@ -60,6 +60,8 @@ class ScheduleController extends Controller
     }
 
 
+
+    // Papalitan pa'to dapat parameterized yung schedule id, e.g /schedule/{id}
     public function destroy(Request $request){
         try{
             $objectId = $request->input('id');
