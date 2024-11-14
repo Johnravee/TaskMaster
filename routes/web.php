@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -9,40 +10,39 @@ use Illuminate\Http\Request;
 
 
 
-Route::post('/create-user', [UserController::class, 'store']);
-Route::post('/create-task', [ScheduleController::class, 'store']);
-Route::get('/fetch-schedules', [ScheduleController::class, 'show']);
-Route::delete('/destroy-schedule', [ScheduleController::class, 'destroy']);
+Route::post('/users', [UserController::class, 'store']); // Create new user
+Route::post('/tasks', [ScheduleController::class, 'store']); // Create new task
+Route::get('/schedules', [ScheduleController::class, 'show']); // Show user schedules
+Route::delete('/schedule', [ScheduleController::class, 'destroy']); // Delete schedule
+Route::post('/form', [AuthController::class, 'formLogin']); // Login via form
 
 
-Route::patch('/update-schedule', [ScheduleController::class, 'update']);
+Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule (testing nalang)
 
-Route::post('/auth/taskmaster/form', [UserController::class, 'formLogin']);
 
-//Google Auth
-Route::get('/auth/google/redirect', function () {
-    return Socialite::driver('google')->redirect();
+
+Route::get('/auth/google/redirect', function () {  // Login via google
+    return Socialite::driver('google')->redirect();  
 });
 
-
-
- 
-Route::get('/auth/google/callback', [UserController::class, 'googleLogin']);
 
 
 //Github Auth
-Route::get('/auth/github/redirect', function () {
+Route::get('/auth/github/redirect', function () {  // Login via github
     return Socialite::driver('github')->redirect();
 });
- 
-Route::get('/auth/github/callback', [UserController::class, 'githubLogin']);
+
+
+
+Route::get('/auth/google/callback', [AuthController::class, 'googleLogin']); // callbacks
+Route::get('/auth/github/callback', [AuthController::class, 'githubLogin']); // callbacks
 
 
 
   // Logout route
-    Route::get('/logout', function (Request $request) {
+    Route::get('/logout', function (Request $request) {  // Logout authenticated user
         Auth::logout(); 
         $request->session()->invalidate(); 
         $request->session()->regenerateToken(); 
-        return redirect()->route('login'); // Redirect to login
+       
     })->name('logout');

@@ -9,35 +9,15 @@ use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
 {
-
-    public function index(Request $request){
-        try{
-         $userId = $request->input('user_id');
-
-        $schedule = Schedule::where('user_id' , $userId)
-                            ->get();
-
-        if($schedule->isEmpty()){
-              return response()->json(['error' => 'Failed to get all schedules'], 404);
-            }
-
-
-            return response()->json(['canceled-schedule' => $schedule]);
-       }catch(\Exception $e){
-          Log::error('Error fetching canceled schedule: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to get all schedules'], 500);
-       }
-    }
-
-
     public function show(Request $request){
 
             //For testing only (gawing auth user id if ok na yung front-end)
-            $userId = $request->input("_id");
+            $userId = $request->input("user_id");
         try {
          
             //For testing only (gawing user_id pag oks na yung front-end)
-            $schedules = Schedule::where('id', $userId)->get();
+            // find all schedules for the user
+            $schedules = Schedule::where('user_id', $userId)->get();
 
             return response()->json(['data' => $schedules], 200);
 
@@ -56,6 +36,7 @@ class ScheduleController extends Controller
             // Validate input
             $validated = $request->validated();
 
+            // create new schedule
             $schedule = Schedule::create($validated);
 
             return response()->json($schedule, 201);
@@ -84,7 +65,8 @@ class ScheduleController extends Controller
             $objectId = $request->input('id');
             $userId = $request->input('user_id');
 
-            $result = Schedule::where('_id', $objectId)
+            // delete schedule
+            $result = Schedule::where('_id', $objectId) 
                                 ->where('user_id', $userId)
                                 ->delete();
 

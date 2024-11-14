@@ -11,6 +11,7 @@ class UserStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
+         //make a condition for authorize
         return true;
     }
 

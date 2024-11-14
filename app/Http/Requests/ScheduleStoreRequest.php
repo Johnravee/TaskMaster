@@ -10,8 +10,9 @@ class ScheduleStoreRequest extends FormRequest
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
-    //Authorize authenticated user ha
+    
     {
+        //make a condition for authorize
         return true;
     }
 
