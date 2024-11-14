@@ -18,6 +18,8 @@ class UserController extends Controller
         $validated = $request->validated();
 
         try {
+
+            // Create a new user
             $user = User::create($validated);
 
 
