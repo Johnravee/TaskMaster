@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 Route::post('/users', [UserController::class, 'store']); // Create new user
 Route::post('/tasks', [ScheduleController::class, 'store']); // Create new task
 Route::get('/schedules', [ScheduleController::class, 'show']); // Show user schedules
-Route::delete('/schedule', [ScheduleController::class, 'destroy']); // Delete schedule
-Route::post('/form', [AuthController::class, 'formLogin']); // Login via form
+Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete schedule
+Route::post('/form/login', [AuthController::class, 'formLogin']); // Login via form
 
 
 Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule (testing nalang)

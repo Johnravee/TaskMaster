@@ -61,16 +61,14 @@ class ScheduleController extends Controller
 
 
 
-    // Papalitan pa'to dapat parameterized yung schedule id, e.g /schedule/{id}
-    public function destroy(Request $request){
+
+    public function destroy($id){   
         try{
-            $objectId = $request->input('id');
-            $userId = $request->input('user_id');
+            $scheduleId = $id;
+           
 
             // delete schedule
-            $result = Schedule::where('_id', $objectId) 
-                                ->where('user_id', $userId)
-                                ->delete();
+            $result = Schedule::where('_id', $scheduleId)   ->delete();
 
             if(!$result){
                 return response()->json(['error' => 'Failed to delete schedule'], 500);

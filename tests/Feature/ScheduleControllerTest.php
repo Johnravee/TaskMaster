@@ -57,14 +57,11 @@ test('asserting an exact json match for task creation', function () {
 
 // schedule deleting test
 test('asserting an exact json match for task delete', function (){
-    $scheduleId = "6735fbf4207318ab6d0f7a22"; //change with the value of schedule id in the database
-    $userId = "6735f6c09605ec58f60a2872"; // change with the value of user_id in the database
+    $scheduleId = "6736b28d560e7f210a0a6272"; //change with the value of schedule id in the database
+  
 
     // send request to schedule route to delete schedule
-    $response = $this->deleteJson('/schedule', [
-        'id' => $scheduleId,
-        'user_id' => $userId,
-    ]);
+     $response = $this->deleteJson("/schedule/{$scheduleId}");
 
     // expected response ng database
     $response
