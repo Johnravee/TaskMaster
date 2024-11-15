@@ -10,8 +10,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-   public function show(){
-        // login view
+   public function showLoginForm(){
+        return inertia('Login'); // Login view
     }
 
 
@@ -40,13 +40,20 @@ class AuthController extends Controller
                 Auth::login($user,  true);
 
 
-                /*  Redirect to page with auth data
-                    example :  return redirect()->intended('dashboard')->with('user_data', Auth::user()); */
+                // Redirect to page with auth data
+                return to_route('dashboard')->with('user_data', Auth::user());
 
+                 
+                /*
+                    Testing with postman/pest
+                    Uncomment me to test this function
+                    
                     return response()->json([
                         'user' => $user,
                         'message' => 'User logged in via Form successfully!',
                     ], 200);
+                */
+
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Form authentication failed.',
@@ -76,14 +83,20 @@ class AuthController extends Controller
             Auth::login($user, true);
 
 
-            /*  Redirect to page with auth data
-              example :  return redirect()->intended('dashboard')->with('user_data', Auth::user()); */
+            // Redirect to page with auth data
+            return to_route('dashboard')->with('user_data', Auth::user());
    
+
+              /*
+                    Testing with postman/pest
+                    Uncomment me to test this function
     
-            return response()->json([
-                'user' => $user,
-                'message' => 'User logged in via Google successfully!',
-            ], 200);
+                    return response()->json([
+                        'user' => $user,
+                        'message' => 'User logged in via Google successfully!',
+                    ], 200);
+
+            */
 
         } catch (\Exception $e) {
             
@@ -115,14 +128,21 @@ class AuthController extends Controller
             Auth::login($user, true);
 
 
-            /*  Redirect to page with auth data
-              example :  return redirect()->intended('dashboard')->with('user_data', Auth::user()); */
+            // Redirect to page with auth data
+            return to_route('dashboard')->with('user_data', Auth::user());
    
+
+             /*
+                    Testing with postman/pest
+                    Uncomment me to test this function
     
-            return response()->json([
-                'user' => $user,
-                'message' => 'User logged in via Github successfully!',
-            ], 200);
+                    return response()->json([
+                        'user' => $user,
+                        'message' => 'User logged in via Github successfully!',
+                    ], 200);
+
+            */
+
         } catch (\Exception $e) {
 
             Log::error("Auth failed" . $e->getMessage());

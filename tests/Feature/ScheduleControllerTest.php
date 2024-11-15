@@ -4,14 +4,19 @@ use Carbon\Carbon;
 
 
 
-    /* 
+    test('asserting an schedule of user by using user ID', function (){
 
-    schedule fetching test
+        $sampleUserId = "6735f6c09605ec58f60a2872";
+        
+        // send request to task route to create schedule
+        $response = $this->getJson("/schedules/{$sampleUserId}");
 
-        --------> Code here <--------
 
-    */
-
+        $response
+                ->assertStatus(200);
+                
+    })
+;
 
 // schedule creation test
 test('asserting an exact json match for task creation', function () {

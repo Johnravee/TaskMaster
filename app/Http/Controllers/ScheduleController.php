@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
 {
-    public function show(Request $request){
-
-            //For testing only (gawing auth user id if ok na yung front-end)
-            $userId = $request->input("user_id");
+    public function show($id){
+            $userId = $id;
         try {
          
-            //For testing only (gawing user_id pag oks na yung front-end)
+
             // find all schedules for the user
             $schedules = Schedule::where('user_id', $userId)->get();
 
@@ -51,6 +49,8 @@ class ScheduleController extends Controller
 
     //pending
     public function update(Request $request){
+
+        // use parameter here !
         $scheduleId = $request->input("_id");
         $userId = $request->input("user_id");
 

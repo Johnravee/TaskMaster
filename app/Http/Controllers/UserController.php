@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+
+    public function showRegistrationForm(){
+      //  return view('register'); wala pang naka-set sa jsx
+    }
+
+
+
     public function store(UserStoreRequest  $request)
     {
         // Validate input
