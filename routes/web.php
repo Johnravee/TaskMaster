@@ -21,22 +21,23 @@ Route::middleware('auth')->group(function (){
 
         Route::post('/tasks', [ScheduleController::class, 'store']); // Create new task
 
+        Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule (linis nalang)
+        
         Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules
-
+        
         Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete schedule
-
-        Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule (testing nalang)
-
+        
+        
         Route::get('/logout', function (Request $request) {  // Logout authenticated user
             Auth::logout(); 
             $request->session()->invalidate(); 
             $request->session()->regenerateToken(); 
-        
+            
         });
+        
+        
+    });
     
-
-});
-
 
 // Ito lang yung magagamit na routes if user is not authenticated 
 Route::middleware('guest')->group(function (){

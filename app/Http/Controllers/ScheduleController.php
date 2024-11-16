@@ -47,18 +47,48 @@ class ScheduleController extends Controller
     }
     
 
-    //pending
-    public function update(Request $request){
+ // update schedule
+    public function update(Request $request)
+    {
+        try {
 
-        // use parameter here !
-        $scheduleId = $request->input("_id");
-        $userId = $request->input("user_id");
+            $scheduleId = $request->input("_id");
+            $title = $request->input('title');
+            $description = $request->input('description');
+            $start = $request->input('start');
+            $end = $request->input('end');
+            $category = $request->input('category');
+            $status = $request->input('status');
+            $user_id = $request->input('user_id'); 
 
 
-        Log::info("update request : $scheduleId and $userId");
-        return response()->json(["data" => "update request $scheduleId and $userId"], 200);
+            // Prepare the data for update
+            $updateData = [
+                'title' => $title,
+                'description' => $description,
+                'start' => $start,
+                'end' => $end,
+                'category' => $category,
+                'status' => $status,
+            ];
+
+            // Update the schedule
+            $scheduleUpdateResult = Schedule::where('_id', $scheduleId)
+                                            ->where("user_id", $user_id)
+                                            ->update($updateData);
+
+            if(!$scheduleUpdateResult){
+                return response()->json(['error' => 'Schedule not found'], 404);
+            }
+
+        
+            return response()->json(["message" => "Schedule updated successfully", "data" => $updateData], 200);
+            
+        } catch (\Exception $e) {
+            Log::error('Error updating schedule: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update schedule'], 500);
+        }
     }
-
 
 
 

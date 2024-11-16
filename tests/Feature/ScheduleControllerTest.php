@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
     test('asserting an schedule of user by using user ID', function (){
 
-        $sampleUserId = "6735f6c09605ec58f60a2872";
+        $sampleUserId = "6735f6c09605ec58f60a2872"; // replace with actual user ID in the 
         
         // send request to task route to create schedule
         $response = $this->getJson("/schedules/{$sampleUserId}");
@@ -32,6 +32,7 @@ test('asserting an exact json match for task creation', function () {
         'start' => $start,
         'end' => $end,
         'category' => 'Sample category',
+        'status' => 'Sample status',
         'user_id' => $userId,
     ]);
 
@@ -44,10 +45,9 @@ test('asserting an exact json match for task creation', function () {
         'start' => $start,
         'end' => $end,
         'category' => 'Sample category',
+        'status' => 'Sample status',
         'user_id' => $userId,
-        'created_at' => $response->json('created_at'), 
-        'updated_at' => $response->json('updated_at'),
-        'id' => $response->json('id'), 
+        
     ]);
 });
 
