@@ -4,17 +4,17 @@ use App\Models\User;
 
 
 
-test('asserting to authenticate user using login form', function () {
+test('Log in user via form', function () {
 
 
     // retrieve user data from database
-    $user = User::where('email', 'sally_1731636325@gmail.com')->first(); 
+    $user = User::where('email', 'sally_1731850296@gmail.com')->first(); 
 
    
 
     // send request to form login route to authenticate provided credentials 
     $response = $this->postJson('/form/login', [
-        'email' => 'sally_1731636325@gmail.com',
+        'email' => 'sally_1731850296@gmail.com',
         'password' => '123456789',  
     ]);
 

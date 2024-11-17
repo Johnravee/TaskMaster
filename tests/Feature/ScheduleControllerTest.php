@@ -21,7 +21,7 @@ use Carbon\Carbon;
 
 
     
-test('asserting a schedule of user by using user ID', function () {
+test('Schedule fetch on specific user', function () {
  
      $user = \App\Models\User::factory()->create(); // Create random user
     
@@ -38,7 +38,7 @@ test('asserting a schedule of user by using user ID', function () {
 });
 
 // schedule creation test
-test('asserting an exact JSON match for task creation', function () {
+test('Schedule is created', function () {
     $start = Carbon::now()->addDay()->toISOString();
     $end = Carbon::now()->addDays(2)->toISOString();
    
@@ -80,7 +80,7 @@ test('asserting an exact JSON match for task creation', function () {
 
 // schedule deleting test
 
-test('asserting an exact JSON match for task delete', function () {
+test('Schedule is deleted', function () {
  
     $schedule = \App\Models\Schedule::factory()->create(); // create new schedule 
 

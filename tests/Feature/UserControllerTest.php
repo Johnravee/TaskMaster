@@ -2,7 +2,7 @@
 
 
 // user creation test
-test('asserting an exact json match for user creation', function () {
+test('User is created', function () {
     $email = 'sally_' . time() . '@gmail.com'; // Generates a unique email
     
     // send request to users route to create user
@@ -28,4 +28,16 @@ test('asserting an exact json match for user creation', function () {
                 'updated_at' => $response->json('user.updated_at'),
             ]
         ]);
+});
+
+
+
+
+test("User is log out", function(){
+
+
+    $response = $this->getJson('/logout');
+    
+    $this->assertGuest(); 
+
 });
