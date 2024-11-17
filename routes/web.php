@@ -19,15 +19,17 @@ Route::middleware('auth')->group(function (){
             return inertia('Dashboard');
         });
 
-        Route::post('/tasks', [ScheduleController::class, 'store']); // Create new task
+        
 
         Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule (linis nalang)
         
         Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules
-        
+    
         Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete schedule
-        
-        
+
+        Route::post('/tasks', [ScheduleController::class, 'store']); // Create new task
+    
+
         Route::get('/logout', function (Request $request) {  // Logout authenticated user
             Auth::logout(); 
             $request->session()->invalidate(); 
@@ -37,6 +39,7 @@ Route::middleware('auth')->group(function (){
         
         
     });
+    
     
 
 // Ito lang yung magagamit na routes if user is not authenticated 
