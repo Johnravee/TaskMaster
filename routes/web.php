@@ -8,74 +8,60 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-
-
-// kulang pa 'to ng schedule updation
-
-// Ito lang yung magagamit na routes if user is authenticated  (matik babalik sa login route pag in-access yung mga route dito ng unauthenticated user)
+// Routes accessible only by authenticated users. If a user is unauthenticated, they will be redirected to the login route.
 Route::middleware('auth')->group(function (){
 
-        Route::get("/dashboard", function (){
-            return inertia('Dashboard');
-        });
-
-        
-
-        Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule (linis nalang)
-        
-        Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules
-    
-        Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete schedule
-
-        Route::post('/tasks', [ScheduleController::class, 'store']); // Create new task
-    
-
-        Route::get('/logout', function (Request $request) {  // Logout authenticated user
-            Auth::logout(); 
-            $request->session()->invalidate(); 
-            $request->session()->regenerateToken(); 
-            
-        });
-        
-        
-    });
-    
-    
-
-// Ito lang yung magagamit na routes if user is not authenticated 
-Route::middleware('guest')->group(function (){
-
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
-    Route::post('/form/login', [AuthController::class, 'formLogin']); // Login via form
-
-    Route::post('/users', [UserController::class, 'store']); // Create new user
-
-    Route::get('/auth/google/redirect', function () {  // Login via google
-        return Socialite::driver('google')->redirect();  
+    // Dashboard route, accessible only to authenticated users
+    Route::get("/dashboard", function () {
+        return inertia('Dashboard');  // Renders the dashboard view
     });
 
-    Route::get('/auth/github/redirect', function () {  // Login via github
-        return Socialite::driver('github')->redirect();
+    // Update a user's schedule 
+    Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule 
+
+    // Show a specific user's schedule by ID
+    Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules by ID
+
+    // Delete a specific schedule by ID
+    Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete the specified schedule
+
+    // Create a new task for the user's schedule
+    Route::post('/tasks', [ScheduleController::class, 'store']); // Create a new task for the schedule
+
+    // Logout the authenticated user, invalidate the session, and regenerate the CSRF token for security
+    Route::get('/logout', function (Request $request) {  
+        Auth::logout();  // Logs out the authenticated user
+        $request->session()->invalidate();  // Invalidates the current session
+        $request->session()->regenerateToken();  // Regenerates the CSRF token for security
     });
 
-    Route::get('/auth/google/callback', [AuthController::class, 'googleLogin']); // callbacks
-
-    Route::get('/auth/github/callback', [AuthController::class, 'githubLogin']); // callbacks
 });
 
+// Routes accessible only by unauthenticated (guest) users. Redirects them to authenticated routes if already logged in.
+Route::middleware('guest')->group(function (){
 
+    // Show the login form for users who are not authenticated
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');  // Show login form
 
+    // Handle login via form submission
+    Route::post('/form/login', [AuthController::class, 'formLogin']); // Login via form submission
 
+    // Register a new user (user registration)
+    Route::post('/users', [UserController::class, 'store']); // Create a new user in the system
 
+    // Redirect to Google for OAuth login
+    Route::get('/auth/google/redirect', function () {  
+        return Socialite::driver('google')->redirect();  // Initiates the Google OAuth login process
+    });
 
+    // Redirect to GitHub for OAuth login
+    Route::get('/auth/github/redirect', function () {  
+        return Socialite::driver('github')->redirect();  // Initiates the GitHub OAuth login process
+    });
 
+    // Callback route for Google OAuth login
+    Route::get('/auth/google/callback', [AuthController::class, 'googleLogin']); // Google login callback handler
 
-
-
-
-
-
-
-
-   
+    // Callback route for GitHub OAuth login
+    Route::get('/auth/github/callback', [AuthController::class, 'githubLogin']); // GitHub login callback handler
+});

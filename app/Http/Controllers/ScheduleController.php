@@ -77,6 +77,7 @@ class ScheduleController extends Controller
                                             ->where("user_id", $user_id)
                                             ->update($updateData);
 
+           
             if(!$scheduleUpdateResult){
                 return response()->json(['error' => 'Schedule not found'], 404);
             }
