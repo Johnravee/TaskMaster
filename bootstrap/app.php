@@ -3,7 +3,7 @@ use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\isUserAuthenticated;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,8 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
 
-        // Disable CSRF for all routes
+        // Disable muna CSRF for all routes
         $middleware->validateCsrfTokens(except: ['*']);
+
+        
       
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -16,8 +16,7 @@ Route::middleware('auth')->group(function (){
         return inertia('Dashboard');  // Renders the dashboard view
     });
 
-    // Update a user's schedule 
-    Route::patch('/schedule', [ScheduleController::class, 'update']);  // Update schedule 
+   
 
     // Show a specific user's schedule by ID
     Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules by ID
@@ -28,6 +27,10 @@ Route::middleware('auth')->group(function (){
     // Create a new task for the user's schedule
     Route::post('/tasks', [ScheduleController::class, 'store']); // Create a new task for the schedule
 
+ // Update a user's schedule 
+    Route::put('/schedule', [ScheduleController::class, 'update']);  // Update schedule 
+    
+
     // Logout the authenticated user, invalidate the session, and regenerate the CSRF token for security
     Route::get('/logout', function (Request $request) {  
         Auth::logout();  // Logs out the authenticated user
@@ -36,6 +39,9 @@ Route::middleware('auth')->group(function (){
     });
 
 });
+
+
+    
 
 // Routes accessible only by unauthenticated (guest) users. Redirects them to authenticated routes if already logged in.
 Route::middleware('guest')->group(function (){

@@ -17,6 +17,13 @@ class AuthController extends Controller
 
    public function formLogin(Request $request){
         try {
+
+            // Trim email and password fields before validating
+            $request->merge([
+                'email' => trim($request->input('email')),
+                'password' => trim($request->input('password')),
+            ]);
+
             //Validate
             $credentials = $request->validate([
                     'email' => 'required|string|email|max:255',
@@ -41,17 +48,17 @@ class AuthController extends Controller
 
 
                 // Redirect to page with auth data
-                // return to_route('dashboard')->with('user_data', Auth::user());
+                 return to_route('dashboard')->with('user_data', Auth::user());
 
                  
                 
-                //     Testing with postman/pest
-                //     Uncomment me to test this function
+               /*   //     Testing with postman/pest
+                    //     Uncomment me to test this function
                     
                     return response()->json([
                         'user' => $user,
                         'message' => 'User logged in via Form successfully!',
-                    ], 200);
+                    ], 200); */
                
 
         } catch (\Exception $e) {

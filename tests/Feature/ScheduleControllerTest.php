@@ -55,7 +55,7 @@ test('Schedule is created', function () {
         'user_id' => $user->id, 
     ]);
 
-    // Expected response from the database, asserting status and JSON structure
+    // Expected response from the database
     $response
         ->assertStatus(201)
         ->assertJson([
@@ -65,17 +65,60 @@ test('Schedule is created', function () {
             'end' => $end,
             'category' => 'Sample category',
             'status' => 'Sample status',
-            'user_id' => (string) $user->id, // Ensure the ID is returned as a string
+            'user_id' => (string) $user->id, 
         ]);
 });
 
-    /* 
-        
-        schedule updating test
+// schedule updating test
+test('Schedule is updated', function () {
+    // Create a user and a schedule
+    $user = \App\Models\User::factory()->create();
+    $schedule = \App\Models\Schedule::factory()->create([
+        'user_id' => $user->id
+    ]);
+    
+    $updatedStart = Carbon::now()->addDay()->toISOString();
+    $updatedEnd = Carbon::now()->addDays(2)->toISOString();
 
-        --------> Code here <--------
+    // Updated data
+    $updateData = [
+        '_id' => $schedule->id,
+        'user_id' => $user->id,
+        'title' => 'Updated Event',
+        'description' => 'Updated description',
+        'start' => $updatedStart,
+        'end' => $updatedEnd,
+        'category' => 'Updated category',
+        'status' => 'Updated status'
+    ];
 
-    */
+    // Send PUT request to update the schedule
+    $response = $this->putJson("/schedule", $updateData);
+
+    // Assert the response
+    $response
+        ->assertStatus(200)
+        ->assertJson([
+            'message' => 'Schedule updated successfully',
+            'data' => [
+                'title' => 'Updated Event',
+                'description' => 'Updated description',
+                'start' => $updatedStart,
+                'end' => $updatedEnd,
+                'category' => 'Updated category',
+                'status' => 'Updated status'
+            ]
+        ]);
+
+    // Verify the database was updated
+    $this->assertDatabaseHas('schedules', [
+        '_id' => $schedule->id,
+        'title' => 'Updated Event',
+        'description' => 'Updated description',
+        'category' => 'Updated category',
+        'status' => 'Updated status'
+    ]);
+});
 
 
 // schedule deleting test
@@ -96,6 +139,5 @@ test('Schedule is deleted', function () {
    
     $this->assertDatabaseMissing('schedules', ['id' => $schedule->id]);
 });
-
 
 
