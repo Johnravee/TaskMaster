@@ -9,6 +9,25 @@ use Illuminate\Support\Facades\Log;
 
 class ScheduleController extends Controller
 {
+
+    // for admin only!
+    public function index(){
+        try{
+            //Get 10 schedules per page
+            $schedules = Schedule::paginate(10);
+
+            if(!$schedules){
+                return response()->json(['message' => 'No schedules found'], 404);
+            }
+
+            return response()->json($schedules, 200);
+
+        }catch(\Exception $e){
+            Log::error("All schedule not found : ". $e->getMessage());
+            return response()->json(['message' => 'Error fetching all schedules'], 500);
+        }
+    }
+
     public function show($id){
             $userId = $id;
         try {

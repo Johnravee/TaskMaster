@@ -1,38 +1,50 @@
 <?php
 
+use App\Models\User;
 
-// user creation test
+
+// get all users (admin)
+test("Get all users from database", function(){
+
+    $response = $this->getJson('/admin/users');
+
+    // Expected response 
+    $response->assertStatus(200);
+});
+
+
 test('User is created', function () {
-    $email = 'sally_' . time() . '@gmail.com'; // Generates a unique email
+   
+    $user = User::factory()->create();
     
-    // send request to users route to create user
+    // Send a request to create another user
     $response = $this->postJson('/users', [
-        'name' => 'Sally',
-        'email' => $email,
+        'name' => $user->name,
+        'email' => fake()->unique()->safeEmail(), 
         'password' => '123456789',
-        'provider' => 'form'
+        'provider' => 'form',
+        'isAdmin' => $user->isAdmin,
     ]);
 
-
-    // expected response ng database
+    // Expected response 
     $response
         ->assertStatus(201)
-        ->assertExactJson([
-            'message' => 'User created successfully!', 
-            'user' => [
-                'created_at' => $response->json('user.created_at'),
-                'email' => $email, 
+        ->assertJson([
+            'message' => 'User created successfully!',
+            'user' => [            
                 'id' => $response->json('user.id'),
-                'name' => 'Sally',
+                'name' => $user->name,
+                'email' => $response->json('user.email'),
                 'provider' => 'form',
-                'updated_at' => $response->json('user.updated_at'),
+                'isAdmin' => $user->isAdmin,
+                
             ]
         ]);
 });
 
 
 
-
+// logout user
 test("User is log out", function(){
 
 
@@ -41,3 +53,6 @@ test("User is log out", function(){
     $this->assertGuest(); 
 
 });
+
+
+

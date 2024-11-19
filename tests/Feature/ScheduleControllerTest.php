@@ -4,6 +4,16 @@ use Carbon\Carbon;
 
 
 
+// get all schedules (admin)
+test("Get all schedules from database", function(){
+
+    $response = $this->getJson('/admin/schedules');
+    
+    // Expected response 
+    $response->assertStatus(200);
+});
+
+
 /* 
     old code for fetching test data
     test('asserting an schedule of user by using user ID', function (){
@@ -55,7 +65,7 @@ test('Schedule is created', function () {
         'user_id' => $user->id, 
     ]);
 
-    // Expected response from the database
+    // Expected response 
     $response
         ->assertStatus(201)
         ->assertJson([
@@ -95,7 +105,7 @@ test('Schedule is updated', function () {
     // Send PUT request to update the schedule
     $response = $this->putJson("/schedule", $updateData);
 
-    // Assert the response
+    // Expected response 
     $response
         ->assertStatus(200)
         ->assertJson([
@@ -129,7 +139,7 @@ test('Schedule is deleted', function () {
 
     $response = $this->deleteJson("/schedule/{$schedule->id}");
 
-    // Expected response after deletion
+    // Expected response 
     $response
         ->assertStatus(202)  
         ->assertExactJson([

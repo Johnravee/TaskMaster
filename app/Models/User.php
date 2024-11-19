@@ -20,6 +20,7 @@ class User extends Eloquent implements AuthenticatableContract
         'email',
         'password',
         'provider',
+        'isAdmin',
         'remember_token'
     ];
 

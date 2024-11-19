@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Middleware\AdminGuard;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,6 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Disable muna CSRF for all routes
         $middleware->validateCsrfTokens(except: ['*']);
+
+        // admin guard
+        $middleware->alias([
+            'adminGuard' => AdminGuard::class
+        ]);
 
         
       

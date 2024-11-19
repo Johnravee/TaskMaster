@@ -71,3 +71,17 @@ Route::middleware('guest')->group(function (){
     // Callback route for GitHub OAuth login
     Route::get('/auth/github/callback', [AuthController::class, 'githubLogin']); // GitHub login callback handler
 });
+
+
+Route::prefix('admin')->middleware(['auth', 'adminGuard'])->group(function () {
+    // routes for admin 
+
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/schedules', [ScheduleController::class, 'index']);
+
+});
+
+
+
+
+          
