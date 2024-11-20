@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function (){
 // Routes accessible only by unauthenticated (guest) users. Redirects them to authenticated routes if already logged in.
 Route::middleware('guest')->group(function (){
 
+    // show registration form
+    Route::get('/form/register', [UserController::class, 'showRegistrationForm']);
+
     // Show the login form for users who are not authenticated
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');  // Show login form
 
@@ -53,7 +56,7 @@ Route::middleware('guest')->group(function (){
     Route::post('/form/login', [AuthController::class, 'formLogin']); // Login via form submission
 
     // Register a new user (user registration)
-    Route::post('/users', [UserController::class, 'store']); // Create a new user in the system
+    Route::post('/api/users', [UserController::class, 'store']); // Create a new user in the system
 
     // Redirect to Google for OAuth login
     Route::get('/auth/google/redirect', function () {  

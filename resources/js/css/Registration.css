@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    overflow-y: hidden;
+}
+
+.content-wrapper{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
+.container1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
+    flex-basis: 70%;
+    padding: 100px;
+}
+
+.wrapper1{
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container2{
+    flex: 1;
+    flex-basis: 40%;       
+    height: 100%;
+    padding-bottom: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#banner-text {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 1px;
+    font-size: 2.6rem;
+    align-self: flex-start;
+    width: 70%;
+    color: #191919;
+
+}
+
+
+#banner{
+    width: 100%;
+    height: auto;
+    padding-top: 20px;
+}
+
+
+
+.form{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 2px solid black;
+    padding: 30px;
+}
+
+#sign-up-txt{
+    font-size: 2em;
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    align-self: flex-start;
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.input-group{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.labels {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.inputs {
+    padding: 5px;
+    margin-bottom: 2vh;
+    border: 1px solid #b0b0b0;
+    border-radius: 5px;
+    font-size: 1.3em;
+    width: 100%;
+}
+
+.btn-container{
+    width: 100%;
+    padding: 15px;
+}
+
+.signinlink{
+    color: rgb(40, 40, 204);
+    text-decoration: underline;
+}
+
+.error-message{
+    font-size: 1.2em;
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    color: #fef2f2;
+    background-color: #ef4444;
+    padding: 5px;
+    border-radius: 3px;
+}

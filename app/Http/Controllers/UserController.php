@@ -12,7 +12,7 @@ class UserController extends Controller
 {
 
     public function showRegistrationForm(){
-      //  return view('register'); wala pang naka-set sa jsx
+        return inertia('Registration');
     }
 
 
@@ -40,6 +40,8 @@ class UserController extends Controller
     {
         // Validate input
         $validated = $request->validated();
+        $validated['isAdmin'] = false; 
+        $validated['provider'] = 'form';
 
         try {
 

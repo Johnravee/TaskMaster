@@ -26,8 +26,8 @@ class UserStoreRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
-            'provider' => 'required|string',
-            'isAdmin' => 'required|boolean'
+            'provider' => 'string',
+            'isAdmin' => 'boolean'
         ];
     }
 }
