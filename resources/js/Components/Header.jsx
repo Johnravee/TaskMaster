@@ -1,6 +1,6 @@
 import React from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import logo from '../images/logo.png'
+import logo from '../assets/images/logo.png'
 import '../css/Header.css'
 
 const Header = () => {

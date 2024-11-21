@@ -1,22 +1,23 @@
+@import url('./index.css');
 
-@import './index.css';
 *{
     box-sizing: border-box;
-    padding: 0;
     margin: 0;
-    overflow-y: hidden;
+    padding: 0;
 }
 
-.registration .content-wrapper{
+
+.login .content-wrapper {
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
+    
 }
 
-.registration .container1{
+.login .container1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,10 +27,11 @@
     background-color: transparent;
     flex-basis: 70%;
     padding: 100px;
+    order: 2;
     padding-top: 10%;
 }
 
-.registration .wrapper1{
+.login .wrapper1 {
     width: 100%;
     flex: 1;
     display: flex;
@@ -38,18 +40,19 @@
     flex-direction: column;
 }
 
-.registration .container2{
+.login .container2 {
     flex: 1;
-    flex-basis: 40%;       
+    flex-basis: 40%;
     height: 100%;
     padding-bottom: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
+    order: 1;
 }
 
 
-.registration #banner-text {
+.login #banner-text {
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     font-style: normal;
@@ -62,15 +65,16 @@
 }
 
 
-.registration #banner{
+.login #banner {
     width: 90%;
     height: auto;
     padding-top: 20px;
+    
 }
 
 
 
-.registration .form{
+.login .form {
     width: 80%;
     height: 100%;
     display: flex;
@@ -83,7 +87,7 @@
     padding: 30px;
 }
 
-.registration #sign-up-txt{
+.login #sign-in-txt {
     font-size: 2em;
     font-family: "Roboto", sans-serif;
     font-weight: 900;
@@ -93,12 +97,12 @@
     margin-top: 20px;
 }
 
-.registration .input-group{
+.login .input-group {
     width: 100%;
     margin-bottom: 10px;
 }
 
-.registration .labels {
+.login .labels {
     font-size: 1.2em;
     margin-bottom: 5px;
     font-family: "Roboto", sans-serif;
@@ -106,7 +110,7 @@
     font-style: normal;
 }
 
-.registration .inputs {
+.login .inputs {
     padding: 5px;
     margin-bottom: 2vh;
     border: 1px solid #b0b0b0;
@@ -115,25 +119,32 @@
     width: 100%;
 }
 
-.registration .btn-container{
+.login .btn-container {
     width: 100%;
     padding: 15px;
 }
 
-.registration .signin {
-    font-family: 'roboto-normal', sans-serif;
-    font-style: normal;
-    font-weight: 500;
+.social-btn{
+    width: 100%;
+    padding: 10px 15px;
 }
 
-.registration .signinlink{
+.login .signin {
+    font-family: 'roboto-medium', sans-serif;
+    font-size: 1.2em;
+    margin-top: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.login .signinlink {
     color: rgb(40, 40, 204);
     text-decoration: underline;
     padding-left: 2px;
     cursor: pointer;
 }
 
-.registration .error-message{
+.login .error-message {
     font-size: 1em;
     font-family: "Roboto", sans-serif;
     font-weight: 900;
@@ -142,4 +153,33 @@
     background-color: var(--error-bg);
     padding: 5px;
     border-radius: 3px;
+}
+
+.login .seperator {
+    width: 100%;
+    margin: 2rem 0;
+    text-align: center;
+    position: relative;
+}
+
+.login .seperator span {
+    background-color: #FFFF;
+    font-size: 1.06rem;
+    position: relative;
+    z-index: 1;
+    color:#1919199f;
+    font-family: 'roboto-normal', sans-serif;
+    padding: 0 5px;
+} 
+
+.login .seperator::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #1919199f;
+    top: 50%;
+    z-index: 0;
+
 }

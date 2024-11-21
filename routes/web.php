@@ -87,4 +87,6 @@ Route::prefix('admin')->middleware(['auth', 'adminGuard'])->group(function () {
 
 
 
-          
+Route::get('/test', function (){
+    return inertia('Test');
+});

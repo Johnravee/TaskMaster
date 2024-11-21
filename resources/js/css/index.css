@@ -1,0 +1,29 @@
+:root{
+    --black-color : #191919;
+    --white-color : #FFFAFA;
+    --error-txt-color : #fef2f2;
+    --error-bg : #ef4444;
+    --success-bg: #10B981;
+    --success-txt-color: #FFFAFA;
+}
+
+@font-face {
+    font-family: 'roboto-bold';
+    src: url('../assets/fonts/Roboto/Roboto-Bold.ttf');
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'roboto-medium';
+    src: url('../assets/fonts/Roboto/Roboto-Medium.ttf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'roboto-normal';
+    src: url('../assets/fonts/Roboto/Roboto-Regular.ttf');
+    font-style: normal;
+}
