@@ -1,9 +1,9 @@
 import React from 'react'
-import { SuccessModal } from '../Components/Modals'
+import History from './History'
 const Test = () => {
   return (
     <div>
-        <SuccessModal />
+        <History />
     </div>
   )
 }

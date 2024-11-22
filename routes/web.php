@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Auth::logout();  // Logs out the authenticated user
         $request->session()->invalidate();  // Invalidates the current session
         $request->session()->regenerateToken();  // Regenerates the CSRF token for security
-        return to_route('login');
+        return response()->json([], 200);
     });
 
 });
