@@ -1,38 +1,111 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Header from '../Components/Header'
 import { ErrorModal } from '../Components/Modals'
 import Loader from '../Components/Loader'
 import '../css/Login.css'
 import banner from '../assets/images/banner.png'
 import { PlainBlackButton, GithubButton, GoogleButton } from '../Components/Buttons'
+import axios from 'axios'
 
 
 
-const Login = () => {
+const Login = ({errorkupal}) => {
 
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const [modalErroMessage, setModalErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
 
   const handleNavigation = () =>{
     window.location.href = '/form/register'
   }
+  
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    
+    // Set CSRF token in Axios headers
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+
+    const handleFormLogin = async () =>{
+      try {
+
+        setErrorMessage('')
+
+        // Basic validation
+        if (!email || !password) {
+          setErrorMessage('All fields are required.')
+          return
+        }
+
+        // Email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailPattern.test(email)) {
+          setErrorMessage('Please enter a valid email address.')
+          return
+        }
+
+        // show loader
+        setLoading(true)
+
+        const response = await axios.post('/form/login', {email, password})
+        setEmail('')
+        setPassword('')
 
 
-   const closeModal = () => {
-     setShowModal(false);
+       if (response.data.redirectUrl && response.status === 200) {
+            window.location.href = response.data.redirectUrl  
+        } else {
+            setErrorMessage('Login failed, please try again.')
+        }
+
+      
+      } catch (error) {
+        // console.error(`Error response : ${error.response.data.error}`) //Uncomment for debugging
+        setLoading(false)
+        setErrorMessage(error.response.data.details || error.response.data.message || error.response.data.error)
+        setEmail('')
+        setPassword('')
+      }
     }
+
+
+    const handleGoogleLogin = async () =>{
+      try {
+
+        setErrorMessage('')
+        // redirect lang sa google form
+        window.location.href = '/api/auth/google/redirect';
+
+        
+      }
+      catch(error){
+          // console.error("Error from google login", error) Uncomment for debugging 
+          setErrorMessage('Google login failed, please try again.')
+      }
+    }
+
+
+    const handleGithubLogin = async () =>{
+      try {
+        setErrorMessage('')
+
+        // redirect lang sa github form
+        window.location.href = 'api/auth/github/redirect';
+
+
+      } catch (error) {
+        console.error("Error from github login", error.response.data.error) //Uncomment for debugging 
+        setErrorMessage(errorkupal)
+      }
+
+    }
+
+
 
   return (
     <div className='login'>
         {loading && <Loader />}
-
-      <ErrorModal show={showModal} message={modalErroMessage} onClose={closeModal} />
-      
 
       <Header />
 
@@ -48,6 +121,7 @@ const Login = () => {
           <div className="form">
             <h2 id="sign-in-txt">Sign In</h2>
 
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
 
             <div className="input-group">
               <p className="labels">Email</p>
@@ -69,7 +143,7 @@ const Login = () => {
               />
             </div>
 
-            <div className="btn-container" >
+            <div className="btn-container" onClick={handleFormLogin}>
               <PlainBlackButton  text={'Log In'} />
             </div>
 
@@ -77,11 +151,11 @@ const Login = () => {
               <span>or sign in with</span>
             </div>
 
-            <div className="social-btn">
+            <div className="social-btn" onClick={handleGoogleLogin}>
               <GoogleButton text={"Continue with Google"} />
             </div>
 
-            <div className="social-btn">
+            <div className="social-btn" onClick={handleGithubLogin}>
               <GithubButton text={"Continue with Github"} />
             </div>
 

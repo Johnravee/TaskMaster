@@ -1,13 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import logo from '../assets/images/logo.png'
-const Dashboard = () => {
-  return (
-    <div>
-        This is dashboard
-        <img src={logo} alt="" />
-    </div>
-  )
-}
+import logo from '../assets/images/logo.png';
+import Calendar from './Calendar';
+import History from './History';
+import Header from '../Components/Header';
+import 
 
-export default Dashboard
+
+const Dashboard = ({ user_data }) => {
+
+  const [showCalendar, setShowCalendar] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
+
+
+  const handleShowCalendar = () =>{
+    setShowCalendar(true)
+    setShowHistory(false)
+  }
+
+  const handleShowHistory = () =>{
+    setShowCalendar(false)
+    setShowHistory(true)
+  }
+
+  
+
+
+  return (
+    <div className='dashboard'>
+
+        <Header />
+      <nav className="navigations">
+        <button className="btn-navigation" onClick={handleShowCalendar}>Calendar</button>
+        <button className="btn-navigation" onClick={handleShowHistory}> History</button>
+        <button className="btn-navigation"></button>
+      </nav>
+
+
+      <div className="page-frame">
+          {showCalendar && <Calendar />}
+          {showHistory && <History />}
+      </div>
+    </div>
+
+  
+  );
+};
+
+export default Dashboard;

@@ -9,14 +9,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 // Routes accessible only by authenticated users. If a user is unauthenticated, they will be redirected to the login route.
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
 
     // Dashboard route, accessible only to authenticated users
-    Route::get("/dashboard", function () {
-        return inertia('Dashboard');  // Renders the dashboard view
-    });
+        Route::get("/dashboard", function () {
+            return inertia('Dashboard')->with("user_data", Auth::user());  // Renders the dashboard view
+        })->name('dashboard');
 
-   
+
+        Route::get('/tasklist', function () {
+            return inertia('Tasklist');
+        });
+
 
     // Show a specific user's schedule by ID
     Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules by ID
@@ -27,24 +31,25 @@ Route::middleware('auth')->group(function (){
     // Create a new task for the user's schedule
     Route::post('/tasks', [ScheduleController::class, 'store']); // Create a new task for the schedule
 
- // Update a user's schedule 
+    // Update a user's schedule 
     Route::put('/schedule', [ScheduleController::class, 'update']);  // Update schedule 
-    
+
 
     // Logout the authenticated user, invalidate the session, and regenerate the CSRF token for security
-    Route::get('/logout', function (Request $request) {  
+    Route::get('/logout', function (Request $request) {
         Auth::logout();  // Logs out the authenticated user
         $request->session()->invalidate();  // Invalidates the current session
         $request->session()->regenerateToken();  // Regenerates the CSRF token for security
+        return to_route('login');
     });
 
 });
 
 
-    
+
 
 // Routes accessible only by unauthenticated (guest) users. Redirects them to authenticated routes if already logged in.
-Route::middleware('guest')->group(function (){
+Route::middleware('guest')->group(function () {
 
     // show registration form
     Route::get('/form/register', [UserController::class, 'showRegistrationForm']);
@@ -59,12 +64,12 @@ Route::middleware('guest')->group(function (){
     Route::post('/api/users', [UserController::class, 'store']); // Create a new user in the system
 
     // Redirect to Google for OAuth login
-    Route::get('/auth/google/redirect', function () {  
+    Route::get('/api/auth/google/redirect', function () {
         return Socialite::driver('google')->redirect();  // Initiates the Google OAuth login process
     });
 
     // Redirect to GitHub for OAuth login
-    Route::get('/auth/github/redirect', function () {  
+    Route::get('/api/auth/github/redirect', function () {
         return Socialite::driver('github')->redirect();  // Initiates the GitHub OAuth login process
     });
 
@@ -87,6 +92,6 @@ Route::prefix('admin')->middleware(['auth', 'adminGuard'])->group(function () {
 
 
 
-Route::get('/test', function (){
+Route::get('/test', function () {
     return inertia('Test');
 });

@@ -30,25 +30,28 @@ class AuthController extends Controller
                     'password' => 'required|string|min:8',
                 ]);
 
+                Log::info('Incoming request data:', $request->all());
+
 
                 $user = User::where('email', $credentials['email'])
                     ->where('provider', 'form') 
+                    ->where('isAdmin', false)
                     ->first();
 
+
+                    
                     // compare password 
                     if (!$user || !Hash::check($credentials['password'], $user->password)) {
-                        return back()->withErrors([
-                            'email' => 'The provided credentials do not match our records.',
-                        ]);
                         
+                        return response()->json(['error' => 'The provided credentials do not match our records.',], 401);
                     }
                 
-                // authenticate user
-                Auth::login($user,  true);
+                    // authenticate user
+                    Auth::login($user,  true);
 
-
-                // Redirect to page with auth data
-                 return to_route('dashboard')->with('user_data', Auth::user());
+                    return response()->json([
+                        'redirectUrl' => route('dashboard'),  
+                    ], 200);
 
                  
                 
@@ -62,9 +65,10 @@ class AuthController extends Controller
                
 
         } catch (\Exception $e) {
+          
             return response()->json([
                 'error' => 'Form authentication failed.',
-                'details' => $e->getMessage(),
+                'details' => $e->getMessage(), // Include the exception message for debugging
             ], 500);
         }
     }
@@ -79,10 +83,10 @@ class AuthController extends Controller
             $user = User::updateOrCreate(
                 [
                     'email' => $googleUser->getEmail(),
-                    'provider' => 'google',
                 ],
                 [
                     'name' => $googleUser ->getName(),
+                    'provider' => 'google'
                 ]
             );      
 
@@ -123,10 +127,10 @@ class AuthController extends Controller
             $user = User::updateOrCreate(
                 [
                     'email' => $githubUser->getEmail(),
-                    'provider' => 'github',
                 ],
                 [
                     'name' => $githubUser ->getName(),
+                    'provider' => 'github'
                 ]
             );
 
@@ -152,7 +156,7 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error("Auth failed" . $e->getMessage());
+            Log::error("Auth failed" . $e->getCode());
             return response()->json([
                 'error' => 'Github authentication failed.',
                 'details' => $e->getMessage(),
