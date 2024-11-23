@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/Modals.css";
 import Loader from "./Loader";
+import { SetCsrf } from "../utils/axiosCsrfToken";
 
 export const ErrorModal = (props) => {
   const { show, message, onClose } = props;
@@ -99,10 +100,7 @@ export const ScheduleModal = (props) => {
   }, [show])
 
 
-  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    
-    // Set CSRF token in Axios headers
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    SetCsrf()
 
   // Handle form submission
   const handleSubmit = async () => {
@@ -117,8 +115,8 @@ export const ScheduleModal = (props) => {
       const response = await axios.post('/api/schedule', {title, description, start, end, category});
 
       if(response.status === 201){
-         modal.style.display = "none"
          setLoading(false)
+         onClose()
       }
 
     } catch (error) {
