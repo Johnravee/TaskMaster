@@ -17,11 +17,6 @@ Route::middleware('auth')->group(function () {
         })->name('dashboard');
 
 
-        Route::get('/tasklist', function () {
-            return inertia('Tasklist');
-        });
-
-
     // Show a specific user's schedule by ID
     Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules by ID
 
@@ -29,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete the specified schedule
 
     // Create a new task for the user's schedule
-    Route::post('/tasks', [ScheduleController::class, 'store']); // Create a new task for the schedule
+    Route::post('/api/schedule', [ScheduleController::class, 'store']); // Create a new task for the schedule
 
     // Update a user's schedule 
     Route::put('/schedule', [ScheduleController::class, 'update']);  // Update schedule 

@@ -3,14 +3,17 @@ import DataTable from 'react-data-table-component'
 import '../css/Tasklist.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
+
 const Tasklist = () => {
    const [searchQuery, setSearchQuery] = useState('')
+  const [datas, setDatas] = useState([])
 
-  // Initialize datas as an array of objects
-  const [datas, setDatas] = useState([
+  /*
+    samples lang
+  [
     { id: 1, title: 'Task 1', description: 'gubwauiggggggggggggggggggghguihwauiguwiahguwahgiuhwauihguiwahguiwhauighwauighwuiah', startDate: '2024-11-20', dueDate: '2024-11-23', category: 'Work', status: 'In Progress' },
     { id: 2, title: 'Task 2', description: 'Description 2', startDate: '2024-11-21', dueDate: '2024-11-24', category: 'Personal', status: 'Completed' },
-  ])
+  ] */
 
   const COLUMNS = [
     { name: 'Title', selector: row => row.title, sortable: true },
@@ -117,15 +120,15 @@ const Tasklist = () => {
       <DataTable
         columns={COLUMNS}
         data={filteredData}
-        pagination
         customStyles={customStyles}
+        expandableRowsComponent={ExpandedRowComponent} 
+        pagination
         fixedHeader
         theme="default"
         highlightOnHover
         responsive
         dense
         expandableRows
-        expandableRowsComponent={ExpandedRowComponent} 
       />
     </div>
   )

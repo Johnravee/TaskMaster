@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/Modals.css";
+import Loader from "./Loader";
 
 export const ErrorModal = (props) => {
   const { show, message, onClose } = props;
@@ -7,11 +8,11 @@ export const ErrorModal = (props) => {
   useEffect(() => {
     const modal = document.querySelector(".err-modal");
     if (show) {
-      modal.style.display = "flex"; 
+      modal.style.display = "flex"
     } else {
-      modal.style.display = "none"; 
+      modal.style.display = "none"
     }
-  }, [show]); 
+  }, [show])
 
 
 
@@ -42,11 +43,11 @@ export const SuccessModal = (props) => {
   useEffect(() => {
     const modal = document.querySelector(".success-modal");
     if (show) {
-      modal.style.display = "flex"; 
+      modal.style.display = "flex"
     } else {
-      modal.style.display = "none"; 
+      modal.style.display = "none"
     }
-  }, [show]); 
+  }, [show])
 
   const handleRedirect = () =>{
     window.location.href = "/login"
@@ -77,34 +78,59 @@ export const SuccessModal = (props) => {
 };
 
 
-
+// create new schedule modal
 export const ScheduleModal = (props) => {
-  const { show, date, onClose } = props;
+  const { show, start, onClose } = props;
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [end, setEnd] = useState('');
   const [category, setCategory] = useState('');
+  const [loading, setLoading] = useState(false)
 
 
   useEffect(() => {
     const modal = document.querySelector(".schedule-modal-container");
     if (show) {
-      modal.style.display = "flex"; 
+      modal.style.display = "flex"
     } else {
-      modal.style.display = "none"; 
+      modal.style.display = "none"
     }
-  }, [show]); 
+  }, [show])
+
+
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    
+    // Set CSRF token in Axios headers
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
 
   // Handle form submission
-  const handleSubmit = () => {
-    console.log(date, title, description, end, category);
+  const handleSubmit = async () => {
+
+    const modal = document.querySelector(".schedule-modal-container");
+
+    try {
+
+      setLoading(true)
+      modal.style.display = "none"
+
+      const response = await axios.post('/api/schedule', {title, description, start, end, category});
+
+      if(response.status === 201){
+         modal.style.display = "none"
+         setLoading(false)
+      }
+
+    } catch (error) {
+      console.error(`Error in schedule creation : ${error.response.data}`)
+    }
+
   };
 
   return (
     <div className="schedule-modal-container">
+      {loading && <Loader />}
       <div className="schedule-modal-box">
-
         <button className="close-btn" onClick={onClose}>&times;</button> 
         <h2>Create Schedule</h2>
         <div>
@@ -138,7 +164,7 @@ export const ScheduleModal = (props) => {
               type="date"
               name="start"
               id="start"
-              value={date}
+              value={start}
               required
               readOnly
             />
