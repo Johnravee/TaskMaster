@@ -204,6 +204,10 @@ body {
     width: calc(100% - 250px);
 }
 
-#star {
+#star-icon {
     color: #fff220;
+}
+
+#calendar-icon{
+color: #4CAF50;
 }

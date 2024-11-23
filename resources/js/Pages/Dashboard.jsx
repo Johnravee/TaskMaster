@@ -3,29 +3,37 @@ import Calendars from './Calendars'
 import History from './History'
 import '../css/Dashboard.css' 
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import Tasklist from './Tasklist'
 import axios from 'axios'
 
 const Dashboard = ({ user_data }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false)
   const [showCalendar, setShowCalendar] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-
-
-   
+  const [showList, setShowList] = useState(true)
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen)
   }
 
+  const handleShowDashboard = () =>{
+    setShowCalendar(false)
+    setShowHistory(false)
+    setShowList(true)
+  }
+
   const handleShowCalendar = () => {
     setShowCalendar(true)
     setShowHistory(false)
-    setSidebarOpen(!isSidebarOpen)
+    setShowList(false)
+
   }
 
   const handleShowHistory = () => {
     setShowCalendar(false)
     setShowHistory(true)
+    setShowList(false)
+
   }
 
   const handleLogout = async () =>{
@@ -49,6 +57,16 @@ const Dashboard = ({ user_data }) => {
     }
   }
 
+
+   
+
+
+
+
+
+
+
+
   return (
     <div className="dashboard">
       <div className="dashboard-container">
@@ -61,20 +79,20 @@ const Dashboard = ({ user_data }) => {
           </div>
           <ul className="nav-list">
             <li>
-              <a  >
+              <a onClick={handleShowDashboard} >
                 <i className="bi bi-house-door" />
                 <span className="link_name">Dashboard</span>
               </a>
             </li>
             <li>
               <a onClick={handleShowCalendar}>
-                <i className="bi bi-calendar-plus-fill" />
+                <i className="bi bi-calendar-plus-fill" id='calendar-icon' />
                 <span className="link_name">Calendar</span>
               </a>
             </li>
             <li>
               <a href="#">
-                <i className="bi bi-star-half" id ="star" />
+                <i className="bi bi-star-half" id ="star-icon" />
                 <span className="link_name">Important</span>
               </a>
             </li>
@@ -97,11 +115,10 @@ const Dashboard = ({ user_data }) => {
         </div>
 
         <section className="home-section">
-            <div className="text">Dashboard</div>
-
+            {showList && <Tasklist />}
             {showCalendar && <Calendars />}
             {showHistory && <History />}
-          </section>
+        </section>
 
       </div>
     </div>
