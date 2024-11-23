@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction';
 import '../css/Calendars.css'
+import { ScheduleModal } from '../Components/Modals'
 
 
 const Calendars = () => {
+
+   const [showModal, setShowModal] = useState(false)
+   const [clickDate, setClickDate] = useState('')
+
+  const closeModal = () =>{
+    setShowModal(false)
+  }
+
+
   useEffect(() => {
     const calendarEl = document.getElementById('calendar')
     
@@ -28,8 +38,8 @@ const Calendars = () => {
         },
 
          dateClick: function(info) {
-            alert('Clicked on: ' + info.dateStr);
-            
+            setClickDate(info.dateStr)
+            setShowModal(true)
           }
 
       
@@ -44,8 +54,12 @@ const Calendars = () => {
 
   }, [])
 
+
+ 
+
   return (
     <div className='calendars'>
+      <ScheduleModal show={showModal} date={clickDate} onClose={closeModal} />
       <div className="calendar-container">
         <div id="calendar"></div>
       </div>

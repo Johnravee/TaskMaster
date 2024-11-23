@@ -6,6 +6,7 @@ use App\Http\Requests\ScheduleStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
@@ -52,6 +53,8 @@ class ScheduleController extends Controller
 
             // Validate input
             $validated = $request->validated();
+            $validated['user_id'] = Auth::user()->_id;
+            $validated['status'] = 'Pending';
 
             // create new schedule
             $schedule = Schedule::create($validated);

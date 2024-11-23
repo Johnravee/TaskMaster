@@ -1,9 +1,9 @@
 import React from 'react'
-import History from './History'
+import { ScheduleModal } from '../Components/Modals'
 const Test = () => {
   return (
     <div>
-        <History />
+        <ScheduleModal />
     </div>
   )
 }

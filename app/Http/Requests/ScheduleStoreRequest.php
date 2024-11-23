@@ -29,7 +29,7 @@ class ScheduleStoreRequest extends FormRequest
             'start' => 'required|string|max:255',
             'end' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
+            'status' => 'string',
             'user_id' => 'regex:/^[a-f0-9]{24}$/' //mongodb id rule
         ];
     }

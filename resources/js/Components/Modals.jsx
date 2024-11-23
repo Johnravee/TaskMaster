@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Modals.css";
 
 export const ErrorModal = (props) => {
@@ -75,3 +75,106 @@ export const SuccessModal = (props) => {
     </div>
   );
 };
+
+
+
+export const ScheduleModal = (props) => {
+  const { show, date, onClose } = props;
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [end, setEnd] = useState('');
+  const [category, setCategory] = useState('');
+
+
+  useEffect(() => {
+    const modal = document.querySelector(".schedule-modal-container");
+    if (show) {
+      modal.style.display = "flex"; 
+    } else {
+      modal.style.display = "none"; 
+    }
+  }, [show]); 
+
+  // Handle form submission
+  const handleSubmit = () => {
+    console.log(date, title, description, end, category);
+  };
+
+  return (
+    <div className="schedule-modal-container">
+      <div className="schedule-modal-box">
+
+        <button className="close-btn" onClick={onClose}>&times;</button> 
+        <h2>Create Schedule</h2>
+        <div>
+          <div>
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="description">Description</label>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="start">Start Date</label>
+            <input
+              type="date"
+              name="start"
+              id="start"
+              value={date}
+              required
+              readOnly
+            />
+          </div>
+
+          <div>
+            <label htmlFor="end">End Date</label>
+            <input
+              type="date"
+              name="end"
+              id="end"
+              value={end}
+              onChange={(e) => setEnd(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="category">Category</label>
+            <input
+              type="text"
+              name="category"
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="schedule-submit-button">
+            <button onClick={handleSubmit}>Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
