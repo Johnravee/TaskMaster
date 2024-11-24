@@ -3,7 +3,6 @@ import DataTable from 'react-data-table-component'
 import '../css/Tasklist.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
-
 const Tasklist = () => {
    const [searchQuery, setSearchQuery] = useState('')
   const [datas, setDatas] = useState([])

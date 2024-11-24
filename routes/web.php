@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
 
 
     // Show a specific user's schedule by ID
-    Route::get('/schedules/{id}', [ScheduleController::class, 'show']); // Show user schedules by ID
+    Route::get('/api/user/schedules', [ScheduleController::class, 'show']); // Show user schedules by ID
 
     // Delete a specific schedule by ID
     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete the specified schedule

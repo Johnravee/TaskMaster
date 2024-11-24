@@ -29,15 +29,21 @@ class ScheduleController extends Controller
         }
     }
 
-    public function show($id){
-            $userId = $id;
+    public function show(){
+          
         try {
          
+            if(!Auth::check()){
+                return response()->json([], 403);
+            }
+            
+            $authenticatedUserId = Auth::user()->_id;
 
             // find all schedules for the user
-            $schedules = Schedule::where('user_id', $userId)->get();
+            $schedules = Schedule::where('user_id', $authenticatedUserId)->get();
 
-            return response()->json(['data' => $schedules], 200);
+            return response()->json( $schedules, 200);
+            
 
         } catch (\Exception $e) {
 

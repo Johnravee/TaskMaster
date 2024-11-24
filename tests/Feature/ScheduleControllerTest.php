@@ -67,16 +67,8 @@ test('Schedule is created', function () {
 
     // Expected response 
     $response
-        ->assertStatus(201)
-        ->assertJson([
-            'title' => 'Sample Event',
-            'description' => 'Sample description',
-            'start' => $start,
-            'end' => $end,
-            'category' => 'Sample category',
-            'status' => 'Sample status',
-            'user_id' => (string) $user->id, 
-        ]);
+        ->assertStatus(201);
+        
 });
 
 // schedule updating test

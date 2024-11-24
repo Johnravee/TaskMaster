@@ -1,22 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import '../css/History.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import axios from 'axios'
 
 const History = () => {
   const [searchQuery, setSearchQuery] = useState('')
 
   // Initialize datas as an array of objects
-  const [datas, setDatas] = useState([
-    { id: 1, title: 'Task 1', description: 'gubwauiggggggggggggggggggghguihwauiguwiahguwahgiuhwauihguiwahguiwhauighwauighwuiah', startDate: '2024-11-20', dueDate: '2024-11-23', category: 'Work', status: 'In Progress' },
-    { id: 2, title: 'Task 2', description: 'Description 2', startDate: '2024-11-21', dueDate: '2024-11-24', category: 'Personal', status: 'Completed' },
-  ])
+  const [datas, setDatas] = useState([])
+
+
+  useEffect(() => {
+    (async function()  {
+      try {
+        const response = await axios.get('/api/user/schedules');
+        setDatas(response.data)
+        console.log(response); 
+      } catch (error) {
+        console.log(error);  
+      }
+    })()
+}, []);
+
 
   const COLUMNS = [
     { name: 'Title', selector: row => row.title, sortable: true },
     { name: 'Description', selector: row => row.description, sortable: true },
-    { name: 'Start Date', selector: row => row.startDate, sortable: true },
-    { name: 'Due Date', selector: row => row.dueDate, sortable: true },
+    { name: 'Start Date', selector: row => row.start, sortable: true },
+    { name: 'Due Date', selector: row => row.end, sortable: true },
     { name: 'Category', selector: row => row.category, sortable: true },
     { name: 'Status', selector: row => row.status, sortable: true },
     // Actions Column
@@ -93,8 +105,8 @@ const History = () => {
 
   const ExpandedRowComponent = ({ data }) => (
     <div className='expanded-row'>
-      <p><strong>Start Date:</strong> {data.startDate}</p>
-      <p><strong>Due Date:</strong> {data.dueDate}</p>
+      <p><strong>Start Date:</strong> {data.start}</p>
+      <p><strong>Due Date:</strong> {data.end}</p>
       <p><strong>Status:</strong> {data.status}</p>
       <p><strong>Category:</strong> {data.category}</p>
       <p><strong>Description:</strong> {data.description}</p>
