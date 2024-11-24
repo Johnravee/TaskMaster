@@ -6,6 +6,7 @@ import '../css/Login.css'
 import banner from '../assets/images/banner.png'
 import { PlainBlackButton, GithubButton, GoogleButton } from '../Components/Buttons'
 import axios from 'axios'
+import { SetCsrf } from '../utils/axiosCsrfToken'
 
 
 
@@ -22,10 +23,7 @@ const Login = ({errorkupal}) => {
     window.location.href = '/form/register'
   }
   
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    
-    // Set CSRF token in Axios headers
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    SetCsrf()
 
     const handleFormLogin = async () =>{
       try {

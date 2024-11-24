@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import "../css/Modals.css";
-import Loader from "./Loader";
-import { SetCsrf } from "../utils/axiosCsrfToken";
+import React, { useEffect, useState } from "react"
+import "../css/Modals.css"
+import Loader from "./Loader"
+import { SetCsrf } from "../utils/axiosCsrfToken"
 
 export const ErrorModal = (props) => {
-  const { show, message, onClose } = props;
+  const { show, message, onClose } = props
 
   useEffect(() => {
-    const modal = document.querySelector(".err-modal");
+    const modal = document.querySelector(".err-modal")
     if (show) {
       modal.style.display = "flex"
     } else {
@@ -33,16 +33,16 @@ export const ErrorModal = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 
 
 export const SuccessModal = (props) => {
-  const { show, message, onClose } = props;
+  const { show, message, onClose } = props
 
   useEffect(() => {
-    const modal = document.querySelector(".success-modal");
+    const modal = document.querySelector(".success-modal")
     if (show) {
       modal.style.display = "flex"
     } else {
@@ -75,23 +75,35 @@ export const SuccessModal = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 
 // create new schedule modal
 export const ScheduleModal = (props) => {
-  const { show, start, onClose } = props;
+  const { show, start, onClose, existingSchedule, isUpdate } = props  
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [end, setEnd] = useState('');
-  const [category, setCategory] = useState('');
+
+  const [startDate, setStartDate] = useState(existingSchedule?.start || start)
+  const [title, setTitle] = useState(existingSchedule?.title || '')
+  const [description, setDescription] = useState(existingSchedule?.description || '')
+  const [end, setEnd] = useState(existingSchedule?.end || '')
+  const [category, setCategory] = useState(existingSchedule?.category || '')
   const [loading, setLoading] = useState(false)
 
 
+   useEffect(() => {
+    if (existingSchedule?.start) {
+      setStartDate(existingSchedule.start)
+    } else if (start) {
+      setStartDate(start)
+    }
+  }, [existingSchedule, start])
+
+  
+
   useEffect(() => {
-    const modal = document.querySelector(".schedule-modal-container");
+    const modal = document.querySelector(".schedule-modal-container")
     if (show) {
       modal.style.display = "flex"
     } else {
@@ -99,38 +111,39 @@ export const ScheduleModal = (props) => {
     }
   }, [show])
 
+  SetCsrf()
 
-    SetCsrf()
-
-  // Handle form submission
   const handleSubmit = async () => {
-
-    const modal = document.querySelector(".schedule-modal-container");
-
+    const modal = document.querySelector(".schedule-modal-container")
     try {
-
       setLoading(true)
       modal.style.display = "none"
+      
+      const apiUrl = isUpdate ? `/api/schedule/${existingSchedule.id}` : '/api/schedule'
+      const method = isUpdate ? 'PUT' : 'POST'
 
-      const response = await axios.post('/api/schedule', {title, description, start, end, category});
+      const response = await axios({
+        method: method,
+        url: apiUrl,
+        data: { title, description, start, end, category }
+      })
 
-      if(response.status === 201){
-         setLoading(false)
-         onClose()
+      if (response.status === (isUpdate ? 200 : 201)) {
+        setLoading(false)
+        onClose()
       }
 
     } catch (error) {
-      console.error(`Error in schedule creation : ${error.response.data}`)
+      console.error(`Error in schedule ${isUpdate ? 'update' : 'creation'}: ${error.response.data}`)
     }
-
-  };
+  }
 
   return (
     <div className="schedule-modal-container">
       {loading && <Loader />}
       <div className="schedule-modal-box">
-        <button className="close-btn" onClick={onClose}>&times;</button> 
-        <h2>Create Schedule</h2>
+        <button className="close-btn" onClick={onClose}>&times</button>
+        <h2>{isUpdate ? 'Update Schedule' : 'Create Schedule'}</h2>
         <div>
           <div>
             <label htmlFor="title">Title</label>
@@ -162,7 +175,7 @@ export const ScheduleModal = (props) => {
               type="date"
               name="start"
               id="start"
-              value={start}
+              value={startDate}
               required
               readOnly
             />
@@ -193,12 +206,13 @@ export const ScheduleModal = (props) => {
           </div>
 
           <div className="schedule-submit-button">
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleSubmit}>{isUpdate ? 'Update' : 'Submit'}</button>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+
 
 
