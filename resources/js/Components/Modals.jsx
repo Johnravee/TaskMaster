@@ -235,7 +235,7 @@ export const ScheduleModal = (props) => {
   )
 }
 
-
+// delete modal
 export const DeleteModal = (props) => {
    const { show, id, onClose, fetchData } = props;  
 

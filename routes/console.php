@@ -1,19 +1,17 @@
 <?php
 
+use App\Console\Commands\CheckMissedSchedules;
 use App\Console\Commands\SendUpcomingScheduleNotification;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
 
 
+// change task schedule for demo purposes onleee
+// php artisan schedule:run
 Schedule::command(SendUpcomingScheduleNotification::class)->everySixHours();
+Schedule::command(CheckMissedSchedules::class)->daily();
 
-//Call the command 
-Schedule::call(function () {
-    logger('kupal only');
-})->everySixHours();
+

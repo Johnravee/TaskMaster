@@ -125,8 +125,8 @@ const Tasklist = () => {
 
   const ExpandedRowComponent = ({ data }) => (
     <div className='expanded-row'>
-      <p><strong>Start Date:</strong> {data.startDate}</p>
-      <p><strong>Due Date:</strong> {data.dueDate}</p>
+      <p><strong>Start Date:</strong> {data.start}</p>
+      <p><strong>Due Date:</strong> {data.end}</p>
       <p><strong>Status:</strong> {data.status}</p>
       <p><strong>Category:</strong> {data.category}</p>
       <p><strong>Description:</strong> {data.description}</p>

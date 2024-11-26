@@ -10,16 +10,20 @@ const History = () => {
   // Initialize datas as an array of objects
   const [datas, setDatas] = useState([])
 
+  const fetchData = async () => {
+    try {
+            const response = await axios.get('/schedule/history');
+            setDatas(response.data)
+            
+          } catch (error) {
+            console.log(error);  
+          }
+
+  }
 
   useEffect(() => {
-    (async function()  {
-      try {
-        const response = await axios.get('/api/user/schedules');
-        setDatas(response.data)
-      } catch (error) {
-        console.log(error);  
-      }
-    })()
+    setDatas([])
+    fetchData()
 }, []);
 
 
@@ -30,26 +34,6 @@ const History = () => {
     { name: 'Due Date', selector: row => row.end, sortable: true },
     { name: 'Category', selector: row => row.category, sortable: true },
     { name: 'Status', selector: row => row.status, sortable: true },
-    // Actions Column
-    {
-      name: 'Actions',
-      cell: (row) => (
-        <div>
-          <button
-            onClick={() => handleEdit(row.id)} 
-            className='edit-btn'
-          >
-            <i className="bi bi-pencil-square"></i>
-          </button>
-          <button
-            onClick={() => handleDelete(row.id)} 
-            className='delete-btn'
-          >
-           <i className="bi bi-trash"></i>
-          </button>
-        </div>
-      ),
-    },
   ]
 
   const filteredData = datas.filter(row =>
@@ -59,16 +43,18 @@ const History = () => {
   )
 
 
-  const handleEdit = (id) => {
-    console.log('Editing task with ID:', id)
-  
-  }
+ const handleClearHistory = async () => {
+  try {
+    const response = await axios.delete('/clear/history');
 
-
-  const handleDelete = (id) => {
-    console.log('Deleting task with ID:', id)
+    if(response && response.status === 200){
+      setDatas([])
+      fetchData()
+    }
+  } catch (error) {
     
   }
+ }
 
   const customStyles = {
     header: {
@@ -123,7 +109,10 @@ const History = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className='search-input'
         />
+        <button className='clr-history' onClick={handleClearHistory}>Clear History</button>
       </div>
+
+      
 
       <DataTable
         columns={COLUMNS}

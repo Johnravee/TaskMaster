@@ -20,8 +20,12 @@ Route::middleware('auth')->group(function () {
     // Show a specific user's schedule by ID
     Route::get('/api/user/schedules', [ScheduleController::class, 'show']); // Show user schedules by ID
 
+    Route::get('/schedule/history', [ScheduleController::class, 'showHistory']); // Show user schedule history
+
     // Delete a specific schedule by ID
     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete the specified schedule
+
+    Route::delete('/clear/history', [ScheduleController::class, 'clearHistory']); // Clear user schedule history
 
     // Create a new task for the user's schedule
     Route::post('/api/schedule', [ScheduleController::class, 'store']); // Create a new task for the schedule

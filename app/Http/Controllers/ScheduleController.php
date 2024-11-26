@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -40,7 +41,9 @@ class ScheduleController extends Controller
             $authenticatedUserId = Auth::user()->_id;
 
             // find all schedules for the user
-            $schedules = Schedule::where('user_id', $authenticatedUserId)->get();
+            $schedules = Schedule::where('user_id', $authenticatedUserId)
+            ->where('status', 'Pending')
+            ->get();
 
             return response()->json( $schedules, 200);
             
@@ -52,6 +55,60 @@ class ScheduleController extends Controller
         }
     }
 
+    public function showHistory(){
+        try {
+         
+            if(!Auth::check()){
+                return response()->json([], 403);
+            }
+            
+            $authenticatedUserId = Auth::user()->_id;
+            $currentDate = Carbon::now()->toDateTimeString();
+
+
+            // find all missed schedules for the user
+            $schedules = Schedule::where('user_id', $authenticatedUserId)
+                                ->where('end' , '<=', $currentDate)
+                                ->where('status', 'Missed')
+                                ->get();
+
+
+            return response()->json( $schedules, 200);
+            
+
+        } catch (\Exception $e) {
+
+             Log::error('Error fetching schedules History:'. $e->getMessage());
+             return response()->json(['error' => 'Failed to get all schedule History'], 500);
+        }
+    }
+
+
+    public function clearHistory(){
+try {
+         
+            if(!Auth::check()){
+                return response()->json([], 403);
+            }
+            
+            $authenticatedUserId = Auth::user()->_id;
+
+
+            // clear all missed schedules for the user
+            $schedules = Schedule::where('user_id', $authenticatedUserId) 
+                                ->where('status', 'Missed')
+                                ->delete();
+
+
+            return response()->json([], 200);
+            
+
+        } catch (\Exception $e) {
+
+             Log::error('Error clearing schedules History:'. $e->getMessage());
+             return response()->json(['error' => 'Failed to clearing schedule History'], 500);
+        }
+    }
     
     public function store(ScheduleStoreRequest $request)
     {

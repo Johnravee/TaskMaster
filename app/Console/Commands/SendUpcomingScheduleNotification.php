@@ -32,29 +32,33 @@ class SendUpcomingScheduleNotification extends Command
      */
    public function handle()
 {
-    //Get the current date
-    $tomorrow = now()->addDay()->toDateString();
+    try {
+        //Get the current date +1 
+        $tomorrow = now()->addDay()->toDateString();
 
-    //Find Schedule for tomorrow
-    $schedules = Schedule::where('start', $tomorrow)
-                         ->get();
+        //Find Schedule for tomorrow
+        $schedules = Schedule::where('start', $tomorrow)
+                            ->get();
 
-    if ($schedules->isEmpty()) {
-        Log::info('No events scheduled for tomorrow.');
-    } else {
-        Log::info('Schedules for tomorrow: ' . $schedules->toJson());
-    }
+        if ($schedules->isEmpty()) {
+            Log::info('No events scheduled for tomorrow.');
+        } else {
+            Log::info('Schedules for tomorrow: ' . $schedules->toJson());
+        }
 
-    // Loop through the schedules and send notifications
-    foreach ($schedules as $schedule) {
-        // Find the user associated with the schedule
-       $user = User::where("_id", $schedule->user_id)->first();
+        // Loop through the schedules and send notifications
+        foreach ($schedules as $schedule) {
+            // Find the user associated with the schedule
+        $user = User::where("_id", $schedule->user_id)->first();
 
-        if ($user) {
-            // Send notification to the user
-            $user->notify(new UpcomingScheduleNotification($schedule));
-        } 
-    }
+            if ($user) {
+                // Send notification to the user
+                $user->notify(new UpcomingScheduleNotification($schedule));
+            } 
+        }
+        } catch (\Exception $e) {
+            Log::info('Sending upcoming schedule email to user failed'. $e->getMessage());
+        }
 }
 
 
