@@ -16,7 +16,6 @@ const History = () => {
       try {
         const response = await axios.get('/api/user/schedules');
         setDatas(response.data)
-        console.log(response); 
       } catch (error) {
         console.log(error);  
       }

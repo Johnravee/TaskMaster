@@ -1,9 +1,9 @@
 import React from 'react'
-import { ScheduleModal } from '../Components/Modals'
+import { DeleteModal } from '../Components/Modals'
 const Test = () => {
   return (
     <div>
-        <ScheduleModal />
+        <DeleteModal />
     </div>
   )
 }

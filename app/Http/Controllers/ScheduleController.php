@@ -15,7 +15,7 @@ class ScheduleController extends Controller
     public function index(){
         try{
             //Get 10 schedules per page
-            $schedules = Schedule::paginate(10);
+            $schedules = Schedule::all();
 
             if(!$schedules){
                 return response()->json(['message' => 'No schedules found'], 404);
@@ -79,10 +79,10 @@ class ScheduleController extends Controller
     public function update(Request $request)
 {
     try {
-        $scheduleId = $request->input("_id");
-        $user_id = $request->input('user_id');
+        $scheduleId = $request->input("scheduleID");
+        $user_id = $request->input('userID');
 
-        $updateData = $request->only(['title', 'description', 'start', 'end', 'category', 'status']);
+        $updateData = $request->only(['title', 'description', 'end', 'category', 'status']);
 
         $scheduleUpdateResult = Schedule::where('_id', $scheduleId)
             ->where("user_id", $user_id)

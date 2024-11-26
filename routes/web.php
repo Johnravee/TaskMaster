@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/schedule', [ScheduleController::class, 'store']); // Create a new task for the schedule
 
     // Update a user's schedule 
-    Route::put('/schedule', [ScheduleController::class, 'update']);  // Update schedule 
+    Route::put('/user/schedule/update', [ScheduleController::class, 'update']);  // Update schedule 
 
 
     // Logout the authenticated user, invalidate the session, and regenerate the CSRF token for security

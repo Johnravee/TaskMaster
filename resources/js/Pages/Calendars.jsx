@@ -59,7 +59,7 @@ const Calendars = () => {
 
   return (
     <div className='calendars'>
-      <ScheduleModal show={showModal} start={clickDate} onClose={closeModal} />
+      <ScheduleModal show={showModal} start={clickDate} onClose={closeModal}  />
       <div className="calendar-container">
         <div id="calendar"></div>
       </div>

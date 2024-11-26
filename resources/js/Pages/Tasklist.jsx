@@ -1,33 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
 import '../css/Tasklist.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import { ScheduleModal, DeleteModal } from '../Components/Modals'
 
 const Tasklist = () => {
    const [searchQuery, setSearchQuery] = useState('')
-  const [datas, setDatas] = useState([])
+   const [datas, setDatas] = useState([])
+   const [clickedRow, setClickedRow] = useState({})
+   const [editShowModal, setEditShowModal] = useState(false)
+   const [isEditRowCLicked, setIsEditRowCLicked] = useState(false)  
+   const [deleteID, setDeleteID] = useState('')
+   const [deleteShowModal, setDeleteShowModal] = useState(false)
 
-  /*
-    samples lang
-  [
-    { id: 1, title: 'Task 1', description: 'gubwauiggggggggggggggggggghguihwauiguwiahguwahgiuhwauihguiwahguiwhauighwauighwuiah', startDate: '2024-11-20', dueDate: '2024-11-23', category: 'Work', status: 'In Progress' },
-    { id: 2, title: 'Task 2', description: 'Description 2', startDate: '2024-11-21', dueDate: '2024-11-24', category: 'Personal', status: 'Completed' },
-  ] */
+
+  const closeModal = () =>{
+    setEditShowModal(false)
+    setDeleteShowModal(false)
+   
+    
+  }
+  
+
+  const fetchDataSchedules = async () => {
+    try {
+        const response = await axios.get('/api/user/schedules')
+        setDatas(response.data)
+        
+      } catch (error) {
+        console.log(error)  
+      }
+  }
+
+  // Fetch data ho
+    useEffect(()=>{
+      (async function(){
+        fetchDataSchedules()
+      })()
+    },[])
+
+
+
+
+    
 
   const COLUMNS = [
     { name: 'Title', selector: row => row.title, sortable: true },
     { name: 'Description', selector: row => row.description, sortable: true },
-    { name: 'Start Date', selector: row => row.startDate, sortable: true },
-    { name: 'Due Date', selector: row => row.dueDate, sortable: true },
+    { name: 'Start Date', selector: row => row.start, sortable: true },
+    { name: 'Due Date', selector: row => row.end, sortable: true },
     { name: 'Category', selector: row => row.category, sortable: true },
     { name: 'Status', selector: row => row.status, sortable: true },
-    // Actions Column
     {
       name: 'Actions',
       cell: (row) => (
         <div>
           <button
-            onClick={() => handleEdit(row.id)} 
+            onClick={() => handleEdit(row)} 
             className='edit-btn'
           >
             <i className="bi bi-pencil-square"></i>
@@ -50,15 +79,16 @@ const Tasklist = () => {
   )
 
 
-  const handleEdit = (id) => {
-    console.log('Editing task with ID:', id)
-  
+  const handleEdit = (row) => {
+    setClickedRow(row)
+    setEditShowModal(true)
+    setIsEditRowCLicked(true)
   }
 
 
   const handleDelete = (id) => {
-    console.log('Deleting task with ID:', id)
-    
+    setDeleteID(id)
+    setDeleteShowModal(true)
   }
 
   const customStyles = {
@@ -106,6 +136,8 @@ const Tasklist = () => {
   return (
     <div className='history-container'>
       <h2 className='history-title'>Task List</h2>
+      <ScheduleModal show={editShowModal} onClose={closeModal} existingSchedule={clickedRow} isUpdate={isEditRowCLicked} fetchData={fetchDataSchedules} />
+      <DeleteModal show={deleteShowModal} id={deleteID} onClose={closeModal} fetchData={fetchDataSchedules}/>
       <div className='search-container'>
         <input
           type="text"
@@ -116,19 +148,22 @@ const Tasklist = () => {
         />
       </div>
 
-      <DataTable
-        columns={COLUMNS}
-        data={filteredData}
-        customStyles={customStyles}
-        expandableRowsComponent={ExpandedRowComponent} 
-        pagination
-        fixedHeader
-        theme="default"
-        highlightOnHover
-        responsive
-        dense
-        expandableRows
-      />
+      <div className="data-table-container">
+        <DataTable
+          columns={COLUMNS}
+          data={filteredData}
+          customStyles={customStyles}
+          expandableRowsComponent={ExpandedRowComponent}
+          pagination
+          theme="default"
+          highlightOnHover
+          responsive
+          dense
+          expandableRows
+          fixedHeaderScrollHeight='600px'
+          fixedHeader
+        />
+      </div>
     </div>
   )
 }
