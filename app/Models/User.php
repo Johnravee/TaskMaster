@@ -22,6 +22,7 @@ class User extends Eloquent implements AuthenticatableContract
         'provider',
         'isAdmin',
         'remember_token'
+        
     ];
 
     /** @var array<int, string> */

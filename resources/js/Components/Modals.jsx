@@ -163,8 +163,10 @@ export const ScheduleModal = (props) => {
     <div className="schedule-modal-container">
       {loading && <Loader />}
       <div className="schedule-modal-box">
-        <button className="close-btn" onClick={onClose}>&times</button>
+        <div className="schedule-modal-header">
         <h2>{isUpdate ? 'Update Schedule' : 'Create Schedule'}</h2>
+          <button className="close-btn" onClick={onClose}><i className="bi bi-x-square-fill"></i></button>
+        </div>
         <div>
           <div>
             <label htmlFor="title">Title</label>

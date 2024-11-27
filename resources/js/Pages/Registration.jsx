@@ -5,7 +5,7 @@ import { PlainBlackButton } from '../Components/Buttons'
 import Loader from '../Components/Loader'
 import axios from 'axios'
 import React, { useState } from 'react'
-import { ErrorModal, SuccessModal } from '../Components/Modals'
+import { ErrorModal, SuccessModal } from '../Components/Modals' 
 
 const Registration = () => {
   const [name, setName] = useState('')

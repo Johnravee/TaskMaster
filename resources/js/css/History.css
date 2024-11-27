@@ -131,3 +131,11 @@
     background-color: #b1b1b1;
 
 }
+
+
+
+@media (max-width: 768px){
+    .clr-history{
+        width: 80%;
+    }
+}

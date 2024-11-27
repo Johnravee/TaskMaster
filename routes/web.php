@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth')->group(function () {
 
     // Dashboard route, accessible only to authenticated users
-        Route::get("/dashboard", function () {
+    Route::get("/dashboard", function () {
             return inertia('Dashboard')->with("user_data", Auth::user());  // Renders the dashboard view
         })->name('dashboard');
 

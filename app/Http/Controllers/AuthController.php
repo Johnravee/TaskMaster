@@ -42,12 +42,12 @@ class AuthController extends Controller
                     
                     // compare password 
                     if (!$user || !Hash::check($credentials['password'], $user->password)) {
-                        
                         return response()->json(['error' => 'The provided credentials do not match our records.',], 401);
                     }
                 
                     // authenticate user
                     Auth::login($user,  true);
+
 
                     return response()->json([
                         'redirectUrl' => route('dashboard'),  

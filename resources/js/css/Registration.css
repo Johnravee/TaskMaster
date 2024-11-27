@@ -143,3 +143,40 @@
     padding: 5px;
     border-radius: 3px;
 }
+
+
+
+
+@media (max-width: 768px){
+
+
+   .registration .container1 {
+            display: none;
+        }
+
+    .registration .container2{
+        width: 100%;
+            flex-basis: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5em;
+    }
+
+         .registration .btn-container {
+             padding: 0;
+         }
+    
+         .registration .input-group {
+             margin: 0;
+         }
+    
+         .registration .btn-plain-black{
+            margin: 15px 0;
+         }
+
+         .registration .signin{
+            font-size: .9em;
+         }
+         
+}

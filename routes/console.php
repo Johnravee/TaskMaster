@@ -12,6 +12,6 @@ use Illuminate\Support\Facades\Schedule;
 // change task schedule for demo purposes onleee
 // php artisan schedule:run
 Schedule::command(SendUpcomingScheduleNotification::class)->everySixHours();
-Schedule::command(CheckMissedSchedules::class)->daily();
+Schedule::command(CheckMissedSchedules::class)->everyFiveSeconds();
 
 

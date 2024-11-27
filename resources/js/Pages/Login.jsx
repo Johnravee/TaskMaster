@@ -10,7 +10,7 @@ import { SetCsrf } from '../utils/axiosCsrfToken'
 
 
 
-const Login = ({errorkupal}) => {
+const Login = () => {
 
 
   const [email, setEmail] = useState('')
@@ -64,6 +64,8 @@ const Login = ({errorkupal}) => {
         setErrorMessage(error.response.data.details || error.response.data.message || error.response.data.error)
         setEmail('')
         setPassword('')
+
+       
       }
     }
 
@@ -94,10 +96,22 @@ const Login = ({errorkupal}) => {
 
       } catch (error) {
         console.error("Error from github login", error.response.data.error) //Uncomment for debugging 
-        setErrorMessage(errorkupal)
+        setErrorMessage(response.data.error)
       }
 
     }
+
+  // hide error message every 3s
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+      
+   
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
 
 
 
