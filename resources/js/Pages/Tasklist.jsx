@@ -27,6 +27,8 @@ const Tasklist = () => {
         const response = await axios.get('/api/user/schedules')
         setDatas(response.data)
         
+        
+        
       } catch (error) {
         console.log(error)  
       }
@@ -34,9 +36,7 @@ const Tasklist = () => {
 
   // Fetch data ho
     useEffect(()=>{
-      (async function(){
         fetchDataSchedules()
-      })()
     },[])
 
 
