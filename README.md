@@ -31,7 +31,7 @@ cd yourproject
 
 ### 2. Install PHP Dependencies
 
-This project requires PHP 8.2+ and Composer to manage backend dependencies.
+This project requires PHP 8.2+ Thread Safe and Composer to manage backend dependencies.
 
 ```bash
  composer install
@@ -80,5 +80,17 @@ This will start both the backend development
 ```bash
 php artisan serve
 ```
+
+## Download these for php configuration
+- **cacert.pem** [Download here](https://curl.se/docs/caextract.html)
+- **php_mongodb.dll** [Download here](https://pecl.php.net/package/mongodb)
+
+## PHP ini config
+- add ext path to  **extension_dir = "C:\php-8.3.12-Win32-vs16-x64\ext"** 
+- remove semicolon of **extension=fileinfo** 
+-  remove semicolon of **extension=curl**
+-  remove semicolon of **extension=openssl**
+-  remove semicolon of **extension=php_mongodb.dll**
+-  remove semicolon of **extension=zip**
 
 This will start both the backend development
