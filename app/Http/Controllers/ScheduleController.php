@@ -16,7 +16,7 @@ class ScheduleController extends Controller
     public function index(){
         try{
             //Get 10 schedules per page
-            $schedules = Schedule::all();
+            $schedules = Schedule::paginate(10);
 
             if(!$schedules){
                 return response()->json(['message' => 'No schedules found'], 404);

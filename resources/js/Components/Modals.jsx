@@ -92,7 +92,7 @@ export const ScheduleModal = (props) => {
   const [end, setEnd] = useState(existingSchedule?.end || '')
   const [category, setCategory] = useState(existingSchedule?.category || '')
   const [loading, setLoading] = useState(false)
-
+  const [error, setError] = useState('')
 
    useEffect(() => {
     if (existingSchedule) {
@@ -131,6 +131,12 @@ export const ScheduleModal = (props) => {
   const handleSubmit = async () => {
     const modal = document.querySelector(".schedule-modal-container");
     try {
+
+      if(end <= start || end <= startDate) {
+        setError('End date must be after start date')
+        return
+      }
+
         setLoading(true);
         modal.style.display = "none";
 
@@ -151,7 +157,11 @@ export const ScheduleModal = (props) => {
         if (response.status === (isUpdate ? 200 : 201)) {
             setLoading(false);
             onClose();
-
+            setTitle('')
+            setCategory('')
+            setDescription('')
+            setEnd('')
+            setError('')
             isUpdate && fetchData()
         }
     } catch (error) {
@@ -168,6 +178,7 @@ export const ScheduleModal = (props) => {
           <button className="close-btn" onClick={onClose}><i className="bi bi-x-square-fill"></i></button>
         </div>
         <div>
+        <h3>{error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}</h3>
           <div>
             <label htmlFor="title">Title</label>
             <input

@@ -15,24 +15,6 @@ class UserController extends Controller
     }
 
 
-    public function index(){
-        try{
-
-            //Get 10 users per page
-            $users = User::paginate(10);
-
-            if(!$users){
-                return response()->json(['message' => 'No users found'], 404);
-            }
-
-
-            return response()->json($users, 200);
-
-        }catch(\Exception $e){
-             Log::error("All users not found : ". $e->getMessage());
-        }
-    }
-
 
 
     public function store(UserStoreRequest  $request)
