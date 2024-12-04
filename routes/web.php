@@ -22,6 +22,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/schedule/history', [ScheduleController::class, 'showHistory']); // Show user schedule history
 
+    Route::get('/schedule/done', [ScheduleController::class,'showDone']);
+
     // Delete a specific schedule by ID
     Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete the specified schedule
 
@@ -32,6 +34,8 @@ Route::middleware('auth')->group(function () {
 
     // Update a user's schedule 
     Route::put('/user/schedule/update', [ScheduleController::class, 'update']);  // Update schedule 
+
+    Route::patch('/user/schedule/update', [ScheduleController::class, 'updateTaskToDone']);  // Update task status 
 
 
     // Logout the authenticated user, invalidate the session, and regenerate the CSRF token for security
@@ -81,7 +85,17 @@ Route::middleware('guest')->group(function () {
     Route::get('/', function () {
        return inertia('About');
     });
+
 });
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+       return inertia( 'Admin');
+    });
+});
+
+
 
 
 

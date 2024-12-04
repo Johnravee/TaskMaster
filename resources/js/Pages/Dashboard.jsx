@@ -5,11 +5,14 @@
   import 'bootstrap-icons/font/bootstrap-icons.css'
   import Tasklist from './Tasklist'
   import axios from 'axios'
+  import { SetCsrf } from '../utils/axiosCsrfToken'
+  import Done from './Done'
 
   const Dashboard = ({ user_data }) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false)
     const [showHistory, setShowHistory] = useState(false)
+    const [showDone, setShowDone] = useState(false)
     const [showList, setShowList] = useState(true)
 
     const toggleSidebar = () => {
@@ -20,30 +23,33 @@
       setShowCalendar(false)
       setShowHistory(false)
       setShowList(true)
+      setShowDone(false)
     }
 
     const handleShowCalendar = () => {
       setShowCalendar(true)
       setShowHistory(false)
       setShowList(false)
-
+      setShowDone(false)
     }
 
     const handleShowHistory = () => {
       setShowCalendar(false)
       setShowHistory(true)
       setShowList(false)
+      setShowDone(false)
+    }
 
+    const handleShowDone = () => {
+      setShowCalendar(false)
+      setShowHistory(false)
+      setShowList(false)
+      setShowDone(true)
     }
 
     const handleLogout = async () =>{
       try {
-
-          console.log('clicked!')
-          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      
-          // Set CSRF token in Axios headers
-          axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+          SetCsrf()
 
         const response = await axios.get('/logout', {withCredentials: true})
 
@@ -91,9 +97,9 @@
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <i className="bi bi-star-half" id ="star-icon" />
-                  <span className="link_name">Important</span>
+                <a onClick={handleShowDone}>
+                  <i className="bi bi-list-check" id ="star-icon" />
+                  <span className="link_name">Done</span>
                 </a>
               </li>
               <li>
@@ -118,6 +124,7 @@
               {showList && <Tasklist />}
               {showCalendar && <Calendars />}
               {showHistory && <History />}
+              {showDone && <Done />}
           </section>
 
         </div>

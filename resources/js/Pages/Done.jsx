@@ -1,51 +1,55 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { filteredData } from '../utils/searchTable'
 import DataTable from 'react-data-table-component'
-import '../css/Tasklist.css'
+import '../css/Done.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import { ScheduleModal, DeleteModal } from '../Components/Modals'
-import axios from 'axios'
+import { DeleteModal } from '../Components/Modals'
+const Done = () => {
 
-const Tasklist = () => {
-   const [searchQuery, setSearchQuery] = useState('')
-   const [datas, setDatas] = useState([])
-   const [clickedRow, setClickedRow] = useState({})
-   const [editShowModal, setEditShowModal] = useState(false)
-   const [isEditRowCLicked, setIsEditRowCLicked] = useState(false)  
-   const [deleteID, setDeleteID] = useState('')
-   const [deleteShowModal, setDeleteShowModal] = useState(false)
+    const [deleteId, setDeleteId] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
+    const [datas, setDatas] = useState([])
+    const [filtered, setFiltered] = useState([]);
+    const [deleteShowModal, setDeleteShowModal] = useState(false)
 
 
-  const closeModal = () =>{
-    setEditShowModal(false)
+    const closeModal = () =>{
     setDeleteShowModal(false)
-   
-    
-  }
-  
-
-  const fetchDataSchedules = async () => {
-    try {
-        const response = await axios.get('/api/user/schedules')
-        setDatas(response.data)
-        
-        
-        
-      } catch (error) {
-        console.log(error)  
-      }
   }
 
-  // Fetch data ho
+    const fetchDataSchedules = async () =>{
+        try {
+            const response = await axios.get('/schedule/done')
+
+            if(response.status === 200){
+                setDatas(response.data)
+                
+            }
+        } catch (error) {
+            console.error('Fetching done data error:', error);
+            
+        }
+    }
+
+   useEffect(() => {
+       const result = filteredData(datas, searchQuery);
+        setFiltered(result);
+    }, [datas, searchQuery]);
+
+
     useEffect(()=>{
         fetchDataSchedules()
     },[])
 
 
-
-
+    const handleDelete = (id) => {
+    setDeleteId(id)
+    setDeleteShowModal(true)
+    console.log(deleteId);
     
+  }
 
-  const COLUMNS = [
+    const COLUMNS = [
     { name: 'Title', selector: row => row.title, sortable: true },
     { name: 'Description', selector: row => row.description, sortable: true },
     { name: 'Start Date', selector: row => row.start, sortable: true },
@@ -56,23 +60,9 @@ const Tasklist = () => {
       name: 'Actions',
       cell: (row) => (
         <div>
-
-          <button
-            onClick={() => handleDone(row.id)} 
-            className='tasklist-done-btn'
-          >
-            <i className="bi bi-check"></i>
-          </button>
-
-          <button
-            onClick={() => handleEdit(row)} 
-            className='tasklist-edit-btn'
-          >
-            <i className="bi bi-pencil-square"></i>
-          </button>
           <button
             onClick={() => handleDelete(row.id)} 
-            className='tasklist-delete-btn'
+            className='done-delete-btn'
           >
            <i className="bi bi-trash"></i>
           </button>
@@ -81,40 +71,7 @@ const Tasklist = () => {
     },
   ]
 
-  const filteredData = datas.filter(row =>
-    Object.values(row).some(value =>
-      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  )
-
-
-  const handleEdit = (row) => {
-    setClickedRow(row)
-    setEditShowModal(true)
-    setIsEditRowCLicked(true)
-  }
-
-
-  const handleDelete = (id) => {
-    setDeleteID(id)
-    setDeleteShowModal(true)
-  }
-
-  const handleDone = async (id) => {
-    try {
-      const response = await axios.patch('/user/schedule/update', {id})
-
-      if (response.status === 200) {
-        setDatas([])
-        fetchDataSchedules()
-      }
-
-    } catch (error) {
-      console.error('Error updating task to done', error)
-    }
-  }
-
-  const customStyles = {
+      const customStyles = {
     header: {
       style: {
         backgroundColor: '#191919',
@@ -156,11 +113,12 @@ const Tasklist = () => {
     </div>
   )
 
+
+    
   return (
-    <div className='history-container'>
-      <h2 className='history-title'>Task List</h2>
-      <ScheduleModal show={editShowModal} onClose={closeModal} existingSchedule={clickedRow} isUpdate={isEditRowCLicked} fetchData={fetchDataSchedules} />
-      <DeleteModal show={deleteShowModal} id={deleteID} onClose={closeModal} fetchData={fetchDataSchedules}/>
+    <div className='done-container'>
+      <h2 className='done-title'>Done List</h2>
+      <DeleteModal show={deleteShowModal} id={deleteId} onClose={closeModal} fetchData={fetchDataSchedules}/>
       <div className='search-container'>
         <input
           type="text"
@@ -174,7 +132,7 @@ const Tasklist = () => {
       <div className="data-table-container">
         <DataTable
           columns={COLUMNS}
-          data={filteredData}
+          data={filtered}
           customStyles={customStyles}
           expandableRowsComponent={ExpandedRowComponent}
           pagination
@@ -187,8 +145,9 @@ const Tasklist = () => {
           fixedHeader
         />
       </div>
-    </div>
+</div>
+
   )
 }
 
-export default Tasklist
+export default Done

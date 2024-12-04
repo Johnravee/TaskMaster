@@ -12,24 +12,6 @@ use Carbon\Carbon;
 class ScheduleController extends Controller
 {
 
-    // for admin only!
-    public function index(){
-        try{
-            //Get 10 schedules per page
-            $schedules = Schedule::paginate(10);
-
-            if(!$schedules){
-                return response()->json(['message' => 'No schedules found'], 404);
-            }
-
-            return response()->json($schedules, 200);
-
-        }catch(\Exception $e){
-            Log::error("All schedule not found : ". $e->getMessage());
-            return response()->json(['message' => 'Error fetching all schedules'], 500);
-        }
-    }
-
     public function show(){
           
         try {
@@ -80,6 +62,18 @@ class ScheduleController extends Controller
 
              Log::error('Error fetching schedules History:'. $e->getMessage());
              return response()->json(['error' => 'Failed to get all schedule History'], 500);
+        }
+    }
+
+    public function ShowDone(){
+        try {
+            $done = Schedule::where('status', 'Done')->get();
+            
+            if($done){
+                return response()->json($done, 200);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 
@@ -155,6 +149,24 @@ try {
         return response()->json(['error' => 'Failed to update schedule'], 500);
     }
 }
+
+// update task to done
+    public function updateTaskToDone(Request $request){
+        try {
+            $scheduleId = $request->input("id");
+            $update = Schedule::where("_id", $scheduleId)
+                                ->update(['status' => 'Done']);
+
+             if(!$update){
+                return response()->json(['Can\'t update status to done'], 404);
+             }
+
+             return response()->json(['Success updated status to done'], 200);
+                                
+        }catch(\Exception $e ){
+            Log::error('Error updating task to done'. $e->getMessage());
+        }
+    }
 
 
 

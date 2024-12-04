@@ -1,8 +1,6 @@
 @import url('./index.css');
 
-
-
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -10,7 +8,23 @@
 
 
 
-.history-container {
+
+.done-delete-btn {
+     background-color: var(--error-bg);
+    padding: 10px 15px;
+    border: none;
+    margin: 2px;
+    font-family: 'roboto-medium';
+    font-size: 14px;
+    color: var(--error-txt-color);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 5px;
+}
+
+
+
+.done-container {
     max-width: auto;
     margin: 0 auto;
     padding: 20px;
@@ -19,8 +33,8 @@
 
 
 .search-container {
-    display: flex;
-    justify-content: flex-end;
+    margin-bottom: 20px;
+    text-align: end;
 }
 
 .search-input {
@@ -68,29 +82,8 @@
     font-size: 15px;
 }
 
-.clr-history{
-        width: 10%;
-        background-color: #ccc;
-        color: var(--black-color);
-        border: none;
-        margin-left: 5px;
-        font-family: 'roboto-medium', sans-serif;
-        font-size: 1.1em;
-        border-radius: 25px;
-        letter-spacing: normal;
-        cursor: pointer;
-        transition: .3s;
-}
-
-.clr-history:hover{
-    background-color: #b1b1b1;
-
-}
-
-
-
 @media (max-width: 768px){
-    .clr-history{
-        width: 80%;
+    .search-input{
+        width: 100%;
     }
 }

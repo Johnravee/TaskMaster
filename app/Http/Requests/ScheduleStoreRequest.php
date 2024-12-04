@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ScheduleStoreRequest extends FormRequest
@@ -12,8 +12,8 @@ class ScheduleStoreRequest extends FormRequest
     public function authorize(): bool
     
     {
-        //make a condition for authorize
-        return true;
+        
+        return Auth::check();
     }
 
     /**

@@ -51,7 +51,7 @@ export const SuccessModal = (props) => {
     }
   }, [show])
 
-  const handleRedirect = () =>{
+  const handleRedirect = () => {
     window.location.href = "/login"
   }
 
@@ -82,7 +82,7 @@ export const SuccessModal = (props) => {
 
 // create new schedule modal
 export const ScheduleModal = (props) => {
-  const { show, start, onClose, existingSchedule, isUpdate, fetchData } = props  
+  const { show, start, onClose, existingSchedule, isUpdate, fetchData } = props
 
   const [scheduleID, setScheduleID] = useState(existingSchedule?.id || '')
   const [userID, setUserID] = useState(existingSchedule?.user_id || '')
@@ -94,7 +94,7 @@ export const ScheduleModal = (props) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-   useEffect(() => {
+  useEffect(() => {
     if (existingSchedule) {
       setScheduleID(existingSchedule.id || '')
       setUserID(existingSchedule.user_id || '')
@@ -104,7 +104,7 @@ export const ScheduleModal = (props) => {
       setEnd(existingSchedule.end || '');
       setCategory(existingSchedule.category || '');
     }
-  }, [existingSchedule]); 
+  }, [existingSchedule]);
 
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export const ScheduleModal = (props) => {
 
 
 
-  
+
 
   useEffect(() => {
     const modal = document.querySelector(".schedule-modal-container")
@@ -132,53 +132,53 @@ export const ScheduleModal = (props) => {
     const modal = document.querySelector(".schedule-modal-container");
     try {
 
-      if(end <= start || end <= startDate) {
+      if (end <= start || end <= startDate) {
         setError('End date must be after start date')
         return
       }
 
-        setLoading(true);
-        modal.style.display = "none";
+      setLoading(true);
+      modal.style.display = "none";
 
-        const apiUrl = isUpdate ? '/user/schedule/update' : '/api/schedule';
-        const method = isUpdate ? 'PUT' : 'POST';
+      const apiUrl = isUpdate ? '/user/schedule/update' : '/api/schedule';
+      const method = isUpdate ? 'PUT' : 'POST';
 
-        const dataToSend = isUpdate 
-            ? { scheduleID, userID, title, description, start: startDate, end, category } 
-            : { title, description, start: startDate, end, category };
+      const dataToSend = isUpdate
+        ? { scheduleID, userID, title, description, start: startDate, end, category }
+        : { title, description, start: startDate, end, category };
 
-        const response = await axios({
-            method: method,
-            url: apiUrl,
-            data: dataToSend
-        });
+      const response = await axios({
+        method: method,
+        url: apiUrl,
+        data: dataToSend
+      });
 
 
-        if (response.status === (isUpdate ? 200 : 201)) {
-            setLoading(false);
-            onClose();
-            setTitle('')
-            setCategory('')
-            setDescription('')
-            setEnd('')
-            setError('')
-            isUpdate && fetchData()
-        }
+      if (response.status === (isUpdate ? 200 : 201)) {
+        setLoading(false);
+        onClose();
+        setTitle('')
+        setCategory('')
+        setDescription('')
+        setEnd('')
+        setError('')
+        isUpdate && fetchData()
+      }
     } catch (error) {
-        console.error(`Error in schedule ${isUpdate ? 'update' : 'creation'}:`, error.response ? error.response.data : error.message);
+      console.error(`Error in schedule ${isUpdate ? 'update' : 'creation'}:`, error.response ? error.response.data : error.message);
     }
-};
+  };
 
   return (
     <div className="schedule-modal-container">
       {loading && <Loader />}
       <div className="schedule-modal-box">
         <div className="schedule-modal-header">
-        <h2>{isUpdate ? 'Update Schedule' : 'Create Schedule'}</h2>
+          <h2>{isUpdate ? 'Update Schedule' : 'Create Schedule'}</h2>
           <button className="close-btn" onClick={onClose}><i className="bi bi-x-square-fill"></i></button>
         </div>
         <div>
-        <h3>{error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}</h3>
+          <h3>{error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}</h3>
           <div>
             <label htmlFor="title">Title</label>
             <input
@@ -250,51 +250,51 @@ export const ScheduleModal = (props) => {
 
 // delete modal
 export const DeleteModal = (props) => {
-   const { show, id, onClose, fetchData } = props;  
+  const { show, id, onClose, fetchData } = props;
 
-   useEffect(() => {
-      const modal = document.querySelector(".del-modal");
-      if (show) {
-         modal.style.display = "flex";
-      } else {
-         modal.style.display = "none";
-      }
-   }, [show]);
+  useEffect(() => {
+    const modal = document.querySelector(".del-modal");
+    if (show) {
+      modal.style.display = "flex";
+    } else {
+      modal.style.display = "none";
+    }
+  }, [show]);
 
 
-   const handleDelete = async () =>{
+  const handleDelete = async () => {
     try {
       const response = await axios.delete(`/schedule/${id}`)
 
-      if(response && response.status === 202){
+      if (response && response.status === 202) {
         fetchData()
         onClose()
       }
     } catch (error) {
       console.error(`Delete Schedule failed : ${error}`)
     }
-   }
+  }
 
 
 
-   return (
-      <div className="del-modal">
-         <div className="del-modal-content">
-            <div className="del-modal-title">
-               <i className="bi bi-trash"></i>
-            </div>
-            <div className="del-modal-body">
-               <p>Are you sure you want to Delete?</p> 
-            </div>
-            <div className="del-modal-close">
-               <button type="button" className="del-close" onClick={onClose} >
-                  Close
-               </button>
-               <button type="button" className="del-submit" onClick={handleDelete}>Delete</button>
-            </div>
-         </div>
+  return (
+    <div className="del-modal">
+      <div className="del-modal-content">
+        <div className="del-modal-title">
+          <i className="bi bi-trash"></i>
+        </div>
+        <div className="del-modal-body">
+          <p>Are you sure you want to Delete?</p>
+        </div>
+        <div className="del-modal-close">
+          <button type="button" className="del-close" onClick={onClose} >
+            Close
+          </button>
+          <button type="button" className="del-submit" onClick={handleDelete}>Delete</button>
+        </div>
       </div>
-   );
+    </div>
+  );
 };
 
 

@@ -19,8 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
 
-        // Disable muna CSRF for all routes
-        $middleware->validateCsrfTokens(except: ['*']);
+
 
         // admin guard
         $middleware->alias([
