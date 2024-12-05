@@ -4,10 +4,12 @@ import '../css/Tasklist.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { ScheduleModal, DeleteModal } from '../Components/Modals'
 import axios from 'axios'
+import { filteredData } from '../utils/searchTable'
 
 const Tasklist = () => {
    const [searchQuery, setSearchQuery] = useState('')
    const [datas, setDatas] = useState([])
+   const [filtered, setFiltered] = useState([])
    const [clickedRow, setClickedRow] = useState({})
    const [editShowModal, setEditShowModal] = useState(false)
    const [isEditRowCLicked, setIsEditRowCLicked] = useState(false)  
@@ -81,11 +83,10 @@ const Tasklist = () => {
     },
   ]
 
-  const filteredData = datas.filter(row =>
-    Object.values(row).some(value =>
-      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  )
+  useEffect(()=>{
+    const result = filteredData(datas, searchQuery)
+    setFiltered(result)
+  },[datas, searchQuery])
 
 
   const handleEdit = (row) => {
@@ -174,7 +175,7 @@ const Tasklist = () => {
       <div className="data-table-container">
         <DataTable
           columns={COLUMNS}
-          data={filteredData}
+          data={filtered}
           customStyles={customStyles}
           expandableRowsComponent={ExpandedRowComponent}
           pagination

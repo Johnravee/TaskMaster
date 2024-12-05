@@ -34,8 +34,7 @@ class AuthController extends Controller
 
 
                 $user = User::where('email', $credentials['email'])
-                    ->where('provider', 'form') 
-                    ->where('isAdmin', false)
+                    ->where('provider', 'form')
                     ->first();
 
 

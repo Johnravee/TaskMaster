@@ -17,9 +17,9 @@ class AdminGuard
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(!Auth::check() && !Auth::user()->isAdmin === true) 
+        if(!Auth::check() || !Auth::user()->isAdmin) 
         {
-            return response()->json(['You\'re not an admin'], 404);        
+            return redirect()->route('login'); 
         }
         return $next($request);
     }

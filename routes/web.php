@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 // Routes accessible only by authenticated users. If a user is unauthenticated, they will be redirected to the login route.
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     // Dashboard route, accessible only to authenticated users
     Route::get("/dashboard", function () {
@@ -89,11 +89,12 @@ Route::middleware('guest')->group(function () {
 });
 
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'adminGuard'])->group(function () {
     Route::get('/', function () {
-       return inertia( 'Admin');
+        return inertia('Admin');
     });
 });
+
 
 
 
