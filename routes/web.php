@@ -93,7 +93,11 @@ Route::prefix('admin')->middleware(['auth', 'adminGuard'])->group(function () {
     Route::get('/', function () {
         return inertia('Admin');
     });
+
+    Route::get('/counts', [ScheduleController::class, 'counter']);
 });
+
+
 
 
 

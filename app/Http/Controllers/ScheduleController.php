@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ScheduleStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -191,5 +192,19 @@ try {
 
     }
 
+
+    public function counter(){
+        try{
+            $countUsers = User::count();
+            $countMissed = Schedule::where('status', 'Missed')->count();
+            $countPending = Schedule::where('status', 'Pending')->count();
+            
+
+            return response()->json([$countUsers, $countMissed, $countPending], 200);
+
+        }catch(\Exception $e){
+            Log::error('Unexpected error on counter : '. $e->getMessage());
+        }
+    }
  
     }
