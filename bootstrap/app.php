@@ -5,6 +5,7 @@ use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\UserGuard;
 
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -23,7 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // admin guard
         $middleware->alias([
-            'adminGuard' => AdminGuard::class
+            'adminGuard' => AdminGuard::class,
+            'userGuard' => UserGuard::class,
         ]);
 
         

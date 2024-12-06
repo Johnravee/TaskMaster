@@ -47,6 +47,12 @@ class AuthController extends Controller
                     // authenticate user
                     Auth::login($user,  true);
 
+                    if(Auth::user()->isAdmin){
+                        return response()->json([
+                        'redirectUrl' => route('admin'),  
+                    ], 200);
+                    }
+
 
                     return response()->json([
                         'redirectUrl' => route('dashboard'),  

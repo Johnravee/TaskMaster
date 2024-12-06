@@ -8,41 +8,41 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-// Routes accessible only by authenticated users. If a user is unauthenticated, they will be redirected to the login route.
-Route::middleware(['auth'])->group(function () {
 
-    // Dashboard route, accessible only to authenticated users
+Route::middleware(['auth', 'userGuard'])->group(function () {
+
+
     Route::get("/dashboard", function () {
-            return inertia('Dashboard')->with("user_data", Auth::user());  // Renders the dashboard view
+            return inertia('Dashboard')->with("user_data", Auth::user());  
         })->name('dashboard');
 
 
     // Show a specific user's schedule by ID
-    Route::get('/api/user/schedules', [ScheduleController::class, 'show']); // Show user schedules by ID
+    Route::get('/api/user/schedules', [ScheduleController::class, 'show']); 
 
     Route::get('/schedule/history', [ScheduleController::class, 'showHistory']); // Show user schedule history
 
     Route::get('/schedule/done', [ScheduleController::class,'showDone']);
 
     // Delete a specific schedule by ID
-    Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); // Delete the specified schedule
+    Route::delete('/schedule/{id}', [ScheduleController::class, 'destroy']); 
 
     Route::delete('/clear/history', [ScheduleController::class, 'clearHistory']); // Clear user schedule history
 
     // Create a new task for the user's schedule
-    Route::post('/api/schedule', [ScheduleController::class, 'store']); // Create a new task for the schedule
+    Route::post('/api/schedule', [ScheduleController::class, 'store']); 
 
     // Update a user's schedule 
-    Route::put('/user/schedule/update', [ScheduleController::class, 'update']);  // Update schedule 
+    Route::put('/user/schedule/update', [ScheduleController::class, 'update']);  
 
     Route::patch('/user/schedule/update', [ScheduleController::class, 'updateTaskToDone']);  // Update task status 
 
 
-    // Logout the authenticated user, invalidate the session, and regenerate the CSRF token for security
+    // Logout the authenticated user
     Route::get('/logout', function (Request $request) {
-        Auth::logout();  // Logs out the authenticated user
-        $request->session()->invalidate();  // Invalidates the current session
-        $request->session()->regenerateToken();  // Regenerates the CSRF token for security
+        Auth::logout();  
+        $request->session()->invalidate();  
+        $request->session()->regenerateToken();  
         return response()->json([], 200);
     });
 
@@ -51,27 +51,21 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-// Routes accessible only by unauthenticated (guest) users. Redirects them to authenticated routes if already logged in.
+
 Route::middleware('guest')->group(function () {
 
     // show registration form
     Route::get('/form/register', [UserController::class, 'showRegistrationForm']);
 
-    // Show the login form for users who are not authenticated
+
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');  // Show login form
 
     // Handle login via form submission
-    Route::post('/form/login', [AuthController::class, 'formLogin']); // Login via form submission
+    Route::post('/form/login', [AuthController::class, 'formLogin']); 
 
     // Register a new user (user registration)
-    Route::post('/api/users', [UserController::class, 'store']); // Create a new user in the system
-
-    // Redirect to Google for OAuth login
-    Route::get('/api/auth/google/redirect', function () {
-        return Socialite::driver('google')->redirect();  // Initiates the Google OAuth login process
-    });
-
-    // Redirect to GitHub for OAuth login
+    Route::post('/api/users', [UserController::class, 'store']); 
+    
     Route::get('/api/auth/github/redirect', function () {
         return Socialite::driver('github')->redirect();  // Initiates the GitHub OAuth login process
     });
@@ -92,7 +86,7 @@ Route::middleware('guest')->group(function () {
 Route::prefix('admin')->middleware(['auth', 'adminGuard'])->group(function () {
     Route::get('/', function () {
         return inertia('Admin');
-    });
+    })->name('admin');
 
     Route::get('/counts', [ScheduleController::class, 'counter']);
 });

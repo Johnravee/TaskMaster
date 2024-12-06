@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AdminGuard
+class UserGuard
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,10 @@ class AdminGuard
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(!Auth::check() || !Auth::user()->isAdmin) 
-        {
-            return redirect()->route('login'); 
-        }
 
-       
+        if(Auth::user()->isAdmin){
+            return redirect()->route('admin'); 
+        }
         return $next($request);
     }
 }
