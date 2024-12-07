@@ -84,6 +84,9 @@ export const SuccessModal = (props) => {
 export const ScheduleModal = (props) => {
   const { show, start, onClose, existingSchedule, isUpdate, fetchData } = props
 
+ 
+
+  
   const [scheduleID, setScheduleID] = useState(existingSchedule?.id || '')
   const [userID, setUserID] = useState(existingSchedule?.user_id || '')
   const [startDate, setStartDate] = useState(existingSchedule?.start || start || '')
@@ -117,14 +120,7 @@ export const ScheduleModal = (props) => {
 
 
 
-  useEffect(() => {
-    const modal = document.querySelector(".schedule-modal-container")
-    if (show) {
-      modal.style.display = "flex"
-    } else {
-      modal.style.display = "none"
-    }
-  }, [show])
+  
 
   SetCsrf()
 
@@ -174,6 +170,8 @@ export const ScheduleModal = (props) => {
     }
   };
 
+  if(!show) return null  
+
   return (
     <div className="schedule-modal-container">
       {loading && <Loader />}
@@ -204,7 +202,6 @@ export const ScheduleModal = (props) => {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              required
             />
           </div>
 
@@ -215,8 +212,9 @@ export const ScheduleModal = (props) => {
               name="start"
               id="start"
               value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              readOnly={!!start}
               required
-              readOnly
             />
           </div>
 
