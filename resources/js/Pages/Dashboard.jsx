@@ -112,7 +112,7 @@
                 <div className="profile_details">
                   <div className="profile_content">
                     <div className="name">{user_data.name}</div>
-                    <div className="designation">User</div>
+                    <div className="designation">{user_data.isAdmin ? 'Admin' : 'User'}</div>
                   </div>
                 </div>
                 <i className="bi bi-box-arrow-right" id="log_out" onClick={handleLogout} />

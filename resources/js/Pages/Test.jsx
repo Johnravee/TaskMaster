@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import Admin from './Admin'
-
+import Forgot from './Forgot'
+import Reset from './Reset'
 const Test = () => {
 
  
   return (
     <div>
-      <Admin />
+      <Forgot />
     </div>
   )
 }

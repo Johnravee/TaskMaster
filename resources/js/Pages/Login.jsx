@@ -146,7 +146,10 @@ const Login = () => {
             </div>
 
             <div className="input-group">
-              <p className="labels">Password</p>
+              <div className="password-labels">
+                <p className="labels">Password</p>
+                <p className='txt-forgot'><a href="/forgot">Forgot Password?</a></p>
+              </div>
               <input
                 className="inputs"
                 type="password"

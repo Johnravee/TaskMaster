@@ -185,6 +185,17 @@
 }
 
 
+.password-labels{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.txt-forgot{
+    font-family: 'roboto-medium', sans-serif;
+}
+
+
 @media (max-width: 768px){
 .login .container1 {
         display: none;
@@ -215,3 +226,5 @@
         margin: 0;
     }
 }
+
+

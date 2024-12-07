@@ -37,7 +37,7 @@ class SendUpcomingScheduleNotification extends Command
         $tomorrow = now()->addDay()->toDateString();
 
         //Find Schedule for tomorrow
-        $schedules = Schedule::where('start', $tomorrow)
+        $schedules = Schedule::where('end', $tomorrow)
                             ->get();
 
         if ($schedules->isEmpty()) {

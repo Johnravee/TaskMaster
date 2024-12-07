@@ -137,6 +137,11 @@ export const ScheduleModal = (props) => {
         return
       }
 
+      if(title === '' || description === '' || category === '') {
+        setError('Incomplete form field, Please fill all fields')
+        return
+      }
+
       setLoading(true);
       modal.style.display = "none";
 
@@ -228,15 +233,18 @@ export const ScheduleModal = (props) => {
           </div>
 
           <div>
-            <label htmlFor="category">Category</label>
-            <input
-              type="text"
-              name="category"
-              id="category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            />
+           <label htmlFor="category">Category</label>
+          <select
+            name="category"
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          >
+            <option value="">Select a category</option>
+            <option value="Priority">Priority</option>
+            <option value="Normal">Normal</option>
+          </select>
           </div>
 
           <div className="schedule-submit-button">

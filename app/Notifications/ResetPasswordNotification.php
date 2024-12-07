@@ -6,19 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Carbon\Carbon;
 
-class UpcomingScheduleNotification extends Notification
+class ResetPasswordNotification extends Notification
 {
     use Queueable;
+
+    public $token;
 
     /**
      * Create a new notification instance.
      */
-    public $schedule;
-    public function __construct($schedule)
+    public function __construct($token)
     {
-        $this->schedule = $schedule;
+        $this->token = $token;
     }
 
     /**
@@ -37,11 +37,10 @@ class UpcomingScheduleNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Upcoming Event: ' . $this->schedule->title)
-            ->line('You have an upcoming event: ' . $this->schedule->title)
-            ->line('Description: ' . $this->schedule->description)
-            ->line('Event starts at: ' . Carbon::parse($this->schedule->start)->toDateTimeString())
-            ->line('Event ends at: ' . Carbon::parse($this->schedule->end)->toDateTimeString());
+                     ->subject('Reset Your Password')
+                    ->line('You are receiving this email because we received a password reset request for your account.')
+                    ->action('Reset Password', url('password/reset', $this->token))
+                    ->line('If you did not request a password reset, no further action is required.');
     }
 
     /**

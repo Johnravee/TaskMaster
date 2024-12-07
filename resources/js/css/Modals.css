@@ -185,9 +185,23 @@
     box-sizing: border-box;
 }
 
+
+
 .schedule-modal-box input:focus {
     border-color: #5e72e4;
     box-shadow: 0 0 5px rgba(94, 114, 228, 0.2);
+}
+
+
+#category{
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
 }
 
 .schedule-submit-button {

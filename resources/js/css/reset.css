@@ -1,0 +1,77 @@
+@import url('./index.css');
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.reset-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  background-color: #f4f4f4;
+}
+
+.reset-form {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  border-radius: 5px;
+  font-family: 'roboto-medium', sans-serif;
+
+}
+
+/* Logo container (centered) */
+.reset-logo-container {
+  margin-bottom: 20px; /* Add some space below the logo */
+  display: flex;
+  justify-content: center;
+}
+
+/* Logo styling */
+.reset-logo {
+  width: 200px; /* Adjust the size of the logo */
+  height: 200px;
+}
+
+/* Input group styling (with label and input) */
+.reset-input-group {
+  margin-bottom: 15px;
+  text-align: left; /* Ensure inputs are left-aligned */
+}
+
+/* Label styling */
+.reset-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left; /* Left align the label */
+}
+
+/* Input field styling */
+.reset-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Button styling */
+.reset-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #000; /* Black button color */
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

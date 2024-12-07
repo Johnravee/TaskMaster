@@ -36,19 +36,15 @@ Route::middleware(['auth', 'userGuard'])->group(function () {
     Route::put('/user/schedule/update', [ScheduleController::class, 'update']);  
 
     Route::patch('/user/schedule/update', [ScheduleController::class, 'updateTaskToDone']);  // Update task status 
+});
 
-
-    // Logout the authenticated user
+  // Logout the authenticated user
     Route::get('/logout', function (Request $request) {
         Auth::logout();  
         $request->session()->invalidate();  
         $request->session()->regenerateToken();  
-        return response()->json([], 200);
+        return redirect()->route('login');
     });
-
-});
-
-
 
 
 
@@ -70,6 +66,11 @@ Route::middleware('guest')->group(function () {
         return Socialite::driver('github')->redirect();  // Initiates the GitHub OAuth login process
     });
 
+
+     Route::get('/api/auth/google/redirect', function () {
+        return Socialite::driver('google')->redirect();  // Initiates the GitHub OAuth login process
+    });
+
     // Callback route for Google OAuth login
     Route::get('/auth/google/callback', [AuthController::class, 'googleLogin']); // Google login callback handler
 
@@ -80,6 +81,26 @@ Route::middleware('guest')->group(function () {
        return inertia('About');
     });
 
+
+    // show reset email confirmation
+    Route::get('/forgot', function(){
+        return inertia('Forgot');
+    });
+
+    // handle data passed from forgot
+    Route::post('/forgot/password', [UserController::class, 'resetPassword']);
+
+
+    // reset password
+    Route::get('/password/reset/{token}', function (string $token) {
+   
+        return inertia('Reset', ['token' => $token]);
+});
+
+    // handle password update
+    Route::post('/reset-password', [UserController::class, 'updatePassword']);
+
+    
 });
 
 
