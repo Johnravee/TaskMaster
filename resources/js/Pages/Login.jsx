@@ -18,6 +18,10 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
+  useEffect(() => {
+    document.title = "Login | Task Master"; 
+  }, []); 
+
 
   const handleNavigation = () =>{
     window.location.href = '/form/register'

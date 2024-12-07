@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Calendars from './Calendars'
 import History from './History'
 import '../css/Dashboard.css' 
@@ -16,6 +16,11 @@ const Dashboard = ({ user_data }) => {
   const [showDone, setShowDone] = useState(false)
   const [showList, setShowList] = useState(true)
   const [showModal, setShowModal] = useState(false); 
+
+
+  useEffect(() => {
+    document.title = "Dashboard | Task Master"; 
+  }, []); 
 
   const closeModal = () => {
     setShowModal(false);

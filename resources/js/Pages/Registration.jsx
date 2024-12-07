@@ -4,7 +4,7 @@ import Header from '../Components/Header'
 import { PlainBlackButton } from '../Components/Buttons'
 import Loader from '../Components/Loader'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ErrorModal, SuccessModal } from '../Components/Modals' 
 
 const Registration = () => {
@@ -17,6 +17,10 @@ const Registration = () => {
   const [showModal, setShowModal] = useState(false)
   const [modalErroMessage, setModalErrorMessage] = useState('')
   const [modalSuccessMessage, setModalSuccessMessage] = useState('')
+
+  useEffect(() => {
+    document.title = "Registration | Task Master"; 
+  }, []); 
 
 
 
